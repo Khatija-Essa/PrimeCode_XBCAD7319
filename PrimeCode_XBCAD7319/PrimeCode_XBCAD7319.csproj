@@ -82,6 +82,7 @@
     <Content Include="User\Default.aspx" />
     <Content Include="User\JobDetails.aspx" />
     <Content Include="User\job_listing.aspx" />
+    <Content Include="User\register.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -120,6 +121,13 @@
     </Compile>
     <Compile Include="User\job_listing.aspx.designer.cs">
       <DependentUpon>job_listing.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="User\register.aspx.cs">
+      <DependentUpon>register.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="User\register.aspx.designer.cs">
+      <DependentUpon>register.aspx</DependentUpon>
     </Compile>
     <Compile Include="User\UserMaster.Master.cs">
       <DependentUpon>UserMaster.Master</DependentUpon>
