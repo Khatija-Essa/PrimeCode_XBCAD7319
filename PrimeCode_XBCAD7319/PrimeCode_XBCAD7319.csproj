@@ -43,7 +43,40 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BCrypt.Net-Next, Version=4.0.3.0, Culture=neutral, PublicKeyToken=1e11be04b6288443, processorArchitecture=MSIL">
+      <HintPath>..\packages\BCrypt.Net-Next.4.0.3\lib\net472\BCrypt.Net-Next.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Stripe.net, Version=45.9.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Stripe.net.45.9.0\lib\net461\Stripe.net.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.2\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -67,35 +100,61 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Admin\ContactList.aspx" />
     <Content Include="Admin\Dashboard.aspx" />
-    <Content Include="Admin\Login.aspx" />
-    <Content Include="Admin\Register.aspx" />
-    <Content Include="Employee\EmployeeDashboard.aspx" />
+    <Content Include="Admin\JobList.aspx" />
+    <Content Include="Admin\PartnerList.aspx" />
+    <Content Include="Admin\Payment.aspx" />
+    <Content Include="Admin\Resume.aspx" />
+    <Content Include="Company\CompanyHome.aspx" />
+    <Content Include="Company\CompanyProfile.aspx" />
+    <Content Include="Company\NewJob.aspx" />
+    <Content Include="Partner\PartnerProfile.aspx" />
     <Content Include="public\fonts\jupiteroid\License.txt" />
+    <Content Include="public\images\bin_icon.png" />
+    <Content Include="public\images\CompanyProfile.jpg" />
     <Content Include="public\images\comapny1.jpg" />
     <Content Include="public\images\comapny3.jpg" />
     <Content Include="public\images\company2.jpg" />
+    <Content Include="public\images\edit_icon.jpeg" />
     <Content Include="public\images\img_group_134.jpg" />
     <Content Include="public\images\img_group_248.png" />
     <Content Include="public\images\img_grou_55.png" />
     <Content Include="public\images\img_image_2.png" />
     <Content Include="public\images\img_image_3.png" />
     <Content Include="public\images\img_Screenshot_100.png" />
+    <Content Include="public\images\No_image.jpg" />
+    <Content Include="public\images\PartnerProfile.jpg" />
+    <Content Include="public\images\UserPorfile.jpg" />
     <Content Include="User\about.aspx" />
+    <Content Include="User\Conditions.aspx" />
     <Content Include="User\contact.aspx" />
     <Content Include="User\Default.aspx" />
     <Content Include="User\JobDetails.aspx" />
     <Content Include="User\job_listing.aspx" />
     <Content Include="User\Login.aspx" />
+    <Content Include="User\Payment.aspx" />
+    <Content Include="User\PaymentCancel.aspx" />
+    <Content Include="User\PaymentSuccess.aspx" />
+    <Content Include="User\Profile.aspx" />
     <Content Include="User\register.aspx" />
+    <Content Include="User\Resume.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Admin\AdminMaster.Master.cs">
       <DependentUpon>AdminMaster.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Admin\AdminMaster.Master.designer.cs">
       <DependentUpon>AdminMaster.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\ContactList.aspx.cs">
+      <DependentUpon>ContactList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\ContactList.aspx.designer.cs">
+      <DependentUpon>ContactList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admin\Dashboard.aspx.cs">
       <DependentUpon>Dashboard.aspx</DependentUpon>
@@ -104,32 +163,75 @@
     <Compile Include="Admin\Dashboard.aspx.designer.cs">
       <DependentUpon>Dashboard.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Admin\Login.aspx.cs">
-      <DependentUpon>Login.aspx</DependentUpon>
+    <Compile Include="Admin\JobList.aspx.cs">
+      <DependentUpon>JobList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Admin\Login.aspx.designer.cs">
-      <DependentUpon>Login.aspx</DependentUpon>
+    <Compile Include="Admin\JobList.aspx.designer.cs">
+      <DependentUpon>JobList.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Admin\Register.aspx.cs">
-      <DependentUpon>Register.aspx</DependentUpon>
+    <Compile Include="Admin\PartnerList.aspx.cs">
+      <DependentUpon>PartnerList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Admin\Register.aspx.designer.cs">
-      <DependentUpon>Register.aspx</DependentUpon>
+    <Compile Include="Admin\PartnerList.aspx.designer.cs">
+      <DependentUpon>PartnerList.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Employee\EmployeeDashboard.aspx.cs">
-      <DependentUpon>EmployeeDashboard.aspx</DependentUpon>
+    <Compile Include="Admin\Payment.aspx.cs">
+      <DependentUpon>Payment.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Employee\EmployeeDashboard.aspx.designer.cs">
-      <DependentUpon>EmployeeDashboard.aspx</DependentUpon>
+    <Compile Include="Admin\Payment.aspx.designer.cs">
+      <DependentUpon>Payment.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Employee\EmployeeMaster.Master.cs">
-      <DependentUpon>EmployeeMaster.Master</DependentUpon>
+    <Compile Include="Admin\Resume.aspx.cs">
+      <DependentUpon>Resume.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Employee\EmployeeMaster.Master.designer.cs">
-      <DependentUpon>EmployeeMaster.Master</DependentUpon>
+    <Compile Include="Admin\Resume.aspx.designer.cs">
+      <DependentUpon>Resume.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Company\CompanyHome.aspx.cs">
+      <DependentUpon>CompanyHome.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Company\CompanyHome.aspx.designer.cs">
+      <DependentUpon>CompanyHome.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Company\CompanyMaster.Master.cs">
+      <DependentUpon>CompanyMaster.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Company\CompanyMaster.Master.designer.cs">
+      <DependentUpon>CompanyMaster.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Company\CompanyProfile.aspx.cs">
+      <DependentUpon>CompanyProfile.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Company\CompanyProfile.aspx.designer.cs">
+      <DependentUpon>CompanyProfile.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Company\NewJob.aspx.cs">
+      <DependentUpon>NewJob.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Company\NewJob.aspx.designer.cs">
+      <DependentUpon>NewJob.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Partner\PartnerMaster.Master.cs">
+      <DependentUpon>PartnerMaster.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Partner\PartnerMaster.Master.designer.cs">
+      <DependentUpon>PartnerMaster.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Partner\PartnerProfile.aspx.cs">
+      <DependentUpon>PartnerProfile.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Partner\PartnerProfile.aspx.designer.cs">
+      <DependentUpon>PartnerProfile.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="User\about.aspx.cs">
@@ -138,6 +240,13 @@
     </Compile>
     <Compile Include="User\about.aspx.designer.cs">
       <DependentUpon>about.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="User\Conditions.aspx.cs">
+      <DependentUpon>Conditions.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="User\Conditions.aspx.designer.cs">
+      <DependentUpon>Conditions.aspx</DependentUpon>
     </Compile>
     <Compile Include="User\contact.aspx.cs">
       <DependentUpon>contact.aspx</DependentUpon>
@@ -174,12 +283,47 @@
     <Compile Include="User\Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
+    <Compile Include="User\Payment.aspx.cs">
+      <DependentUpon>Payment.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="User\Payment.aspx.designer.cs">
+      <DependentUpon>Payment.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="User\PaymentCancel.aspx.cs">
+      <DependentUpon>PaymentCancel.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="User\PaymentCancel.aspx.designer.cs">
+      <DependentUpon>PaymentCancel.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="User\PaymentSuccess.aspx.cs">
+      <DependentUpon>PaymentSuccess.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="User\PaymentSuccess.aspx.designer.cs">
+      <DependentUpon>PaymentSuccess.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="User\Profile.aspx.cs">
+      <DependentUpon>Profile.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="User\Profile.aspx.designer.cs">
+      <DependentUpon>Profile.aspx</DependentUpon>
+    </Compile>
     <Compile Include="User\register.aspx.cs">
       <DependentUpon>register.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="User\register.aspx.designer.cs">
       <DependentUpon>register.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="User\Resume.aspx.cs">
+      <DependentUpon>Resume.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="User\Resume.aspx.designer.cs">
+      <DependentUpon>Resume.aspx</DependentUpon>
     </Compile>
     <Compile Include="User\UserMaster.Master.cs">
       <DependentUpon>UserMaster.Master</DependentUpon>
@@ -191,7 +335,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Admin\AdminMaster.Master" />
-    <Content Include="Employee\EmployeeMaster.Master" />
+    <Content Include="Company\CompanyMaster.Master" />
     <None Include="packages.config" />
     <Content Include="public\fonts\berylium\Berylium Rg.otf" />
     <Content Include="public\fonts\happy_memories\Happy Memories.ttf" />
@@ -201,6 +345,7 @@
     <Content Include="public\fonts\youlast\Youlast.otf" />
     <Content Include="public\fonts\zt_neue_ralewe\ZTNeueRalewe-Regular.ttf" />
     <Content Include="User\UserMaster.Master" />
+    <Content Include="Partner\PartnerMaster.Master" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -208,7 +353,15 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="ID\" />
+    <Folder Include="Images\" />
+    <Folder Include="Matric\" />
+    <Folder Include="Resumes\" />
+    <Folder Include="Transcripts\" />
+    <Folder Include="uploads\" />
+    <Folder Include="UserImages\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
