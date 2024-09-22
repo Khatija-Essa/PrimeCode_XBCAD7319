@@ -10,7 +10,6 @@ namespace PrimeCode_XBCAD7319.User
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            
         }
 
         protected void btnSubmit_Click(object sender, EventArgs e)
@@ -21,7 +20,6 @@ namespace PrimeCode_XBCAD7319.User
             // Create the checkout session
             var sessionUrl = CreateCheckoutSession(username, plan);
 
-            // Redirect the user to the Stripe Checkout page
             if (!string.IsNullOrEmpty(sessionUrl))
             {
                 // Update payment status to 'yes' before redirecting to Stripe checkout page
@@ -38,6 +36,8 @@ namespace PrimeCode_XBCAD7319.User
 
         private string CreateCheckoutSession(string username, string plan)
         {
+            StripeConfiguration.ApiKey = "sk_test_26PHem9AhJZvU623DfE1x4sd"; // Your Stripe API key
+
             var amount = CalculateAmount(plan);
 
             if (amount == 0)
@@ -49,46 +49,56 @@ namespace PrimeCode_XBCAD7319.User
             {
                 PaymentMethodTypes = new List<string> { "card" },
                 LineItems = new List<SessionLineItemOptions>
-        {
-            new SessionLineItemOptions
-            {
-                PriceData = new SessionLineItemPriceDataOptions
                 {
-                    UnitAmount = amount,
-                    Currency = "zar",
-                    ProductData = new SessionLineItemPriceDataProductDataOptions
+                    new SessionLineItemOptions
                     {
-                        Name = $"Payment for {plan}",
+                        PriceData = new SessionLineItemPriceDataOptions
+                        {
+                            UnitAmount = amount,
+                            Currency = "zar",
+                            ProductData = new SessionLineItemPriceDataProductDataOptions
+                            {
+                                Name = $"Payment for {plan}",
+                            },
+                        },
+                        Quantity = 1,
                     },
                 },
-                Quantity = 1,
-            },
-        },
                 Mode = "payment",
+                SuccessUrl = "http://localhost:50630/User/PaymentSuccess.aspx?session_id={CHECKOUT_SESSION_ID}",
                 CancelUrl = "http://localhost:50630/User/PaymentCancel.aspx",
             };
 
             var service = new SessionService();
             Session session = service.Create(options);
 
+            // Save session details to the database
+            SavePaymentSession(username, plan, session.Id, "no");
 
             return session.Url;
         }
 
-
         private long CalculateAmount(string paymentPlan)
         {
-            // Convert the plan to the appropriate amount in cents
             switch (paymentPlan)
             {
+                case "filter_search": return 5500;  // R55.00
+                case "5_cvs": return 5000;          // R50.00
+                case "10_cvs": return 10000;        // R100.00
                 case "additional_cvs": return 2000; // R20.00 per additional CV
+                default: return 0;                  // Invalid plan
             }
         }
+
+        // Saves the payment session with default PaymentMade status as "no"
+        private void SavePaymentSession(string username, string plan, string sessionId, string paymentMade)
         {
             string connectionString = "Data Source=labVMH8OX\\SQLEXPRESS;Initial Catalog=JobConnector;MultipleActiveResultSets=True;Integrated Security=True;Encrypt=False";
 
             using (SqlConnection con = new SqlConnection(connectionString))
             {
+                string query = @"INSERT INTO PaymentSessions (Username, [Plan], SessionId, CreatedAt, PaymentMade) 
+                                 VALUES (@Username, @Plan, @SessionId, @CreatedAt, @PaymentMade)";
 
                 using (SqlCommand cmd = new SqlCommand(query, con))
                 {
@@ -129,7 +139,7 @@ namespace PrimeCode_XBCAD7319.User
 }
 
 
-/*Code Attribute for Payment
+ /*Code Attribute for Payment
  * Source: https://docs.stripe.com/payments/accept-a-payment?platform=web&ui=embedded-form
  * Creater : stripe Docs
  */
