@@ -22,7 +22,7 @@ namespace PrimeCode_XBCAD7319.User
 
             if (!string.IsNullOrEmpty(sessionUrl))
             {
-                //updates boolean in databse to 'yes' so it uupdates on admin side.
+                // Update payment status to 'yes' before redirecting to Stripe checkout page
                 UpdatePaymentStatusForImmediatePayment(username, plan);
 
                 // Redirect the user to the Stripe Checkout page
@@ -36,7 +36,7 @@ namespace PrimeCode_XBCAD7319.User
 
         private string CreateCheckoutSession(string username, string plan)
         {
-            StripeConfiguration.ApiKey = "sk_test_26PHem9AhJZvU623DfE1x4sd"; //demo Stripe API key
+            StripeConfiguration.ApiKey = "sk_test_26PHem9AhJZvU623DfE1x4sd"; // Your Stripe API key
 
             var amount = CalculateAmount(plan);
 
