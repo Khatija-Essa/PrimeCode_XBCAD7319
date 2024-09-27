@@ -42,6 +42,15 @@ namespace PrimeCode_XBCAD7319.Company
         protected global::System.Web.UI.WebControls.TextBox txtJobTitle;
 
         /// <summary>
+        /// rfvJobTitle control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvJobTitle;
+
+        /// <summary>
         /// txtNoPost control.
         /// </summary>
         /// <remarks>
@@ -49,6 +58,24 @@ namespace PrimeCode_XBCAD7319.Company
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtNoPost;
+
+        /// <summary>
+        /// rfvNoPost control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvNoPost;
+
+        /// <summary>
+        /// rvNoPost control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RangeValidator rvNoPost;
 
         /// <summary>
         /// txtDescription control.
@@ -60,6 +87,15 @@ namespace PrimeCode_XBCAD7319.Company
         protected global::System.Web.UI.WebControls.TextBox txtDescription;
 
         /// <summary>
+        /// rfvDescription control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvDescription;
+
+        /// <summary>
         /// txtQualification control.
         /// </summary>
         /// <remarks>
@@ -67,6 +103,15 @@ namespace PrimeCode_XBCAD7319.Company
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtQualification;
+
+        /// <summary>
+        /// rfvQualification control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvQualification;
 
         /// <summary>
         /// txtExperience control.
@@ -78,6 +123,15 @@ namespace PrimeCode_XBCAD7319.Company
         protected global::System.Web.UI.WebControls.TextBox txtExperience;
 
         /// <summary>
+        /// rfvExperience control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvExperience;
+
+        /// <summary>
         /// txtSpecialization control.
         /// </summary>
         /// <remarks>
@@ -85,6 +139,15 @@ namespace PrimeCode_XBCAD7319.Company
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtSpecialization;
+
+        /// <summary>
+        /// rfvSpecialization control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvSpecialization;
 
         /// <summary>
         /// txtLastDate control.
@@ -96,6 +159,24 @@ namespace PrimeCode_XBCAD7319.Company
         protected global::System.Web.UI.WebControls.TextBox txtLastDate;
 
         /// <summary>
+        /// rfvLastDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvLastDate;
+
+        /// <summary>
+        /// cvLastDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CompareValidator cvLastDate;
+
+        /// <summary>
         /// txtSalary control.
         /// </summary>
         /// <remarks>
@@ -103,6 +184,15 @@ namespace PrimeCode_XBCAD7319.Company
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtSalary;
+
+        /// <summary>
+        /// rfvSalary control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvSalary;
 
         /// <summary>
         /// ddlJobType control.
@@ -114,13 +204,13 @@ namespace PrimeCode_XBCAD7319.Company
         protected global::System.Web.UI.WebControls.DropDownList ddlJobType;
 
         /// <summary>
-        /// RequiredFieldValidator1 control.
+        /// rfvJobType control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvJobType;
 
         /// <summary>
         /// txtCompany control.
@@ -130,6 +220,15 @@ namespace PrimeCode_XBCAD7319.Company
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtCompany;
+
+        /// <summary>
+        /// rfvCompany control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvCompany;
 
         /// <summary>
         /// CompanyLogo control.
@@ -150,6 +249,15 @@ namespace PrimeCode_XBCAD7319.Company
         protected global::System.Web.UI.WebControls.TextBox txtWebsite;
 
         /// <summary>
+        /// revWebsite control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator revWebsite;
+
+        /// <summary>
         /// txtEmail control.
         /// </summary>
         /// <remarks>
@@ -157,6 +265,15 @@ namespace PrimeCode_XBCAD7319.Company
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEmail;
+
+        /// <summary>
+        /// revEmail control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator revEmail;
 
         /// <summary>
         /// txtAddress control.
@@ -177,13 +294,13 @@ namespace PrimeCode_XBCAD7319.Company
         protected global::System.Web.UI.WebControls.DropDownList ddlProvinces;
 
         /// <summary>
-        /// RequiredFieldValidator2 control.
+        /// rfvProvinces control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator2;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvProvinces;
 
         /// <summary>
         /// SqlDataSource1 control.

@@ -32,8 +32,16 @@
                         ControlToValidate="ddlUserType">
                     </asp:RequiredFieldValidator>
                 </div>
+
+                 
                 <asp:Button ID="btnLogin" runat="server" Text="Login" CssClass="bg-[#035772] text-white rounded w-full p-5 text-lg hover:bg-[#A5C8D4]"
                     OnClick="btnLogin_Click" />
+                <div class="text-center mt-4">
+                    <span class="clickLink">
+                        <a href="ChangePassword.aspx" class="text-blue-500 hover:underline">Want to change your password?</a>
+                    </span>
+                </div>
+                
                 <div class="text-center mt-4">
                     <span class="clickLink">
                         <a href="../User/register.aspx" class="text-blue-500 hover:underline">New Here? Register</a>
@@ -42,5 +50,4 @@
             </form>
         </div>
     </div>
-
 </asp:Content>

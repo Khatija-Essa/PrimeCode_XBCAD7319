@@ -34,7 +34,7 @@ namespace PrimeCode_XBCAD7319.Admin
         //will display payment details with what user type  and thier email by check which username matches the payment username. looks at the user and company databse.
         private void ShowPaymentDetails()
         {
-            using (SqlConnection con = new SqlConnection("Data Source=labVMH8OX\\SQLEXPRESS;Initial Catalog=JobConnector;MultipleActiveResultSets=True;Integrated Security=True;Encrypt=False"))
+            using (SqlConnection con = new SqlConnection("Server=tcp:primecode.database.windows.net,1433;Initial Catalog=JobConnector;Persist Security Info=False;User ID=primecode;Password=xbcad@7319;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
             {
                 // Query to join PaymentSessions with User and Company tables
                 string query = @"

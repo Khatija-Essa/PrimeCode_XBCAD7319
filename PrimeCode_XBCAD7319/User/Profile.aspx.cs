@@ -26,7 +26,7 @@ namespace PrimeCode_XBCAD7319.User
         //display user details 
         private void showUserProfile()
         {
-            using (SqlConnection con = new SqlConnection("Data Source=labVMH8OX\\SQLEXPRESS;Initial Catalog=JobConnector;MultipleActiveResultSets=True;Integrated Security=True;Encrypt=False"))
+            using (SqlConnection con = new SqlConnection("Server=tcp:primecode.database.windows.net,1433;Initial Catalog=JobConnector;Persist Security Info=False;User ID=primecode;Password=xbcad@7319;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
             {
                 string query = "SELECT UserId, Username, Name, Address, Mobile, Email, Resume, ID, Matric, Transcript, Province, ProfileImage FROM [User] WHERE Username=@username";
                 cmd = new SqlCommand(query, con);
@@ -85,7 +85,7 @@ namespace PrimeCode_XBCAD7319.User
                         fuProfileImage.SaveAs(savePath);
 
                         // Save the relative file path to the database
-                        using (SqlConnection con = new SqlConnection("Data Source=labVMH8OX\\SQLEXPRESS;Initial Catalog=JobConnector;MultipleActiveResultSets=True;Integrated Security=True;Encrypt=False"))
+                        using (SqlConnection con = new SqlConnection("Server=tcp:primecode.database.windows.net,1433;Initial Catalog=JobConnector;Persist Security Info=False;User ID=primecode;Password=xbcad@7319;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
                         {
                             string query = "UPDATE [User] SET ProfileImage = @ProfileImage WHERE UserId = @UserId";
                             cmd = new SqlCommand(query, con);

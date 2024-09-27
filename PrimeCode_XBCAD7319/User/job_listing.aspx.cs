@@ -48,7 +48,7 @@ namespace PrimeCode_XBCAD7319.User
             
             int userId = Convert.ToInt32(Session["UserId"]);
 
-            using (SqlConnection con = new SqlConnection("Data Source=labVMH8OX\\SQLEXPRESS;Initial Catalog=JobConnector;MultipleActiveResultSets=True;Integrated Security=True;Encrypt=False"))
+            using (SqlConnection con = new SqlConnection("Server=tcp:primecode.database.windows.net,1433;Initial Catalog=JobConnector;Persist Security Info=False;User ID=primecode;Password=xbcad@7319;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
             {
                 con.Open();
                 string query = "SELECT FilterCount, HasPaid FROM UserFilterTracking WHERE UserId = @UserId";
@@ -78,7 +78,7 @@ namespace PrimeCode_XBCAD7319.User
         //tracks how many filter search a user has done
         private void InsertUserFilterTracking(int userId)
         {
-            using (SqlConnection con = new SqlConnection("Data Source=labVMH8OX\\SQLEXPRESS;Initial Catalog=JobConnector;MultipleActiveResultSets=True;Integrated Security=True;Encrypt=False"))
+            using (SqlConnection con = new SqlConnection("Server=tcp:primecode.database.windows.net,1433;Initial Catalog=JobConnector;Persist Security Info=False;User ID=primecode;Password=xbcad@7319;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
             {
                 con.Open();
                 string query = "INSERT INTO UserFilterTracking (UserId, FilterCount, HasPaid) VALUES (@UserId, 0, 0)";
@@ -93,7 +93,7 @@ namespace PrimeCode_XBCAD7319.User
         //shows the job list 
         private void showJobList(string query = null, List<SqlParameter> parameters = null)
         {
-            using (SqlConnection con = new SqlConnection("Data Source=labVMH8OX\\SQLEXPRESS;Initial Catalog=JobConnector;MultipleActiveResultSets=True;Integrated Security=True;Encrypt=False"))
+            using (SqlConnection con = new SqlConnection("Server=tcp:primecode.database.windows.net,1433;Initial Catalog=JobConnector;Persist Security Info=False;User ID=primecode;Password=xbcad@7319;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
             {
                 query = query ?? "SELECT JobId, Title, Salary, JobType, CompanyName, CompanyImage, Province, CreateDate FROM Jobs";
                 using (cmd = new SqlCommand(query, con))
@@ -211,7 +211,7 @@ namespace PrimeCode_XBCAD7319.User
         //will update the filter account depending if user has paid or not
         private void UpdateFilterCount(int userId, int filterCount)
         {
-            using (SqlConnection con = new SqlConnection("Data Source=labVMH8OX\\SQLEXPRESS;Initial Catalog=JobConnector;MultipleActiveResultSets=True;Integrated Security=True;Encrypt=False"))
+            using (SqlConnection con = new SqlConnection("Server=tcp:primecode.database.windows.net,1433;Initial Catalog=JobConnector;Persist Security Info=False;User ID=primecode;Password=xbcad@7319;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
             {
                 con.Open();
                 string query = "UPDATE UserFilterTracking SET FilterCount = @FilterCount WHERE UserId = @UserId";
@@ -226,7 +226,7 @@ namespace PrimeCode_XBCAD7319.User
         //code to check if payment is done and they can have unlimited filter searches
         private bool IsUserInPaymentSessions(string username)
         {
-            using (SqlConnection con = new SqlConnection("Data Source=labVMH8OX\\SQLEXPRESS;Initial Catalog=JobConnector;MultipleActiveResultSets=True;Integrated Security=True;Encrypt=False"))
+            using (SqlConnection con = new SqlConnection("Server=tcp:primecode.database.windows.net,1433;Initial Catalog=JobConnector;Persist Security Info=False;User ID=primecode;Password=xbcad@7319;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
             {
                 con.Open();
                 string query = "SELECT COUNT(*) FROM PaymentSessions WHERE Username = @Username";

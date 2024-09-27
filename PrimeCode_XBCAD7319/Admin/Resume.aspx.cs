@@ -32,12 +32,12 @@ namespace PrimeCode_XBCAD7319.Admin
         private void ShowAppliedJob()
         {
             string query = string.Empty;
-            using (SqlConnection con = new SqlConnection("Data Source=labVMH8OX\\SQLEXPRESS;Initial Catalog=JobConnector;MultipleActiveResultSets=True;Integrated Security=True;Encrypt=False"))
+            using (SqlConnection con = new SqlConnection("Server=tcp:primecode.database.windows.net,1433;Initial Catalog=JobConnector;Persist Security Info=False;User ID=primecode;Password=xbcad@7319;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
             {
                 query = @"Select Row_Number() over(Order by(Select 1)) as [Sr.No], aj.AppliedJobId, j.CompanyName, aj.JobId, j.Title, u.Mobile,
-                        u.Name, u.Email, u.Resume, u.Transcript, u.ID, u.Matric from AppliedJobs aj
-                        inner join [User] u on aj.UserId = u.UserId
-                        inner join Jobs j on aj.JobId = j.JobId ";
+                    u.Name, u.Email, u.Resume, u.Transcript, u.ID, u.Matric, u.CV from AppliedJobs aj
+                    inner join [User] u on aj.UserId = u.UserId
+                    inner join Jobs j on aj.JobId = j.JobId ";
                 cmd = new SqlCommand(query, con);
                 SqlDataAdapter sda = new SqlDataAdapter(cmd);
                 dt = new DataTable();
@@ -46,6 +46,7 @@ namespace PrimeCode_XBCAD7319.Admin
                 GridView1.DataBind();
             }
         }
+
         //to get more then one table
         protected void GridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
@@ -53,43 +54,7 @@ namespace PrimeCode_XBCAD7319.Admin
             ShowAppliedJob();
         }
 
-     //to delete a row 
-        protected void GridView1_RowDeleting(object sender, GridViewDeleteEventArgs e)
-        {
-            try
-            {
-                GridViewRow row = GridView1.Rows[e.RowIndex];
-                int appliedjobId = Convert.ToInt32(GridView1.DataKeys[e.RowIndex].Values[0]);
-                using (SqlConnection con = new SqlConnection("Data Source=labVMH8OX\\SQLEXPRESS;Initial Catalog=JobConnector;MultipleActiveResultSets=True;Integrated Security=True;Encrypt=False"))
-                {
-                    cmd = new SqlCommand("Delete from AppliedJobs where AppliedJobId = @id", con);
-                    cmd.Parameters.AddWithValue("@id", appliedjobId);
-                    con.Open();
-                    int r = cmd.ExecuteNonQuery();
-                    if (r > 0)
-                    {
-                        lblMsg.Visible = true;
-                        lblMsg.Text = "Delete successful";
-                        lblMsg.CssClass = "alert alert-success";
-                    }
-                    else
-                    {
-                        lblMsg.Visible = true;
-                        lblMsg.Text = "Could not delete";
-                        lblMsg.CssClass = "alert alert-danger";
-                    }
-
-                    GridView1.EditIndex = -1;
-                    ShowAppliedJob();
-                }
-
-            }
-            catch (Exception ex)
-            {
-                Response.Write("<script>alert('" + ex.Message + "');</script>");
-            }
-
-        }
+        
         //to click on a row and be redirect to the job list page to see what job it was
         protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
         {

@@ -35,7 +35,7 @@ namespace PrimeCode_XBCAD7319.Admin
         private void ShowJob()
         {
             string query = string.Empty;
-            using (SqlConnection con = new SqlConnection("Data Source=labVMH8OX\\SQLEXPRESS;Initial Catalog=JobConnector;MultipleActiveResultSets=True;Integrated Security=True;Encrypt=False"))
+            using (SqlConnection con = new SqlConnection("Server=tcp:primecode.database.windows.net,1433;Initial Catalog=JobConnector;Persist Security Info=False;User ID=primecode;Password=xbcad@7319;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
             {
                 query = @"Select Row_Number() over(Order by(Select 1)) as [Sr.No], JobId, Title,NoOfPost, Description, Qualification, Experience, 
                         LastDateToApply, CompanyName, Province, CreateDate from Jobs  ";
@@ -65,7 +65,7 @@ namespace PrimeCode_XBCAD7319.Admin
             {
                 GridViewRow row = GridView1.Rows[e.RowIndex];
                 int jobId = Convert.ToInt32(GridView1.DataKeys[e.RowIndex].Values[0]);
-                using (SqlConnection con = new SqlConnection("Data Source=labVMH8OX\\SQLEXPRESS;Initial Catalog=JobConnector;MultipleActiveResultSets=True;Integrated Security=True;Encrypt=False"))
+                using (SqlConnection con = new SqlConnection("Server=tcp:primecode.database.windows.net,1433;Initial Catalog=JobConnector;Persist Security Info=False;User ID=primecode;Password=xbcad@7319;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
                 {
                     cmd = new SqlCommand("Delete from Jobs where JobId = @id", con);
                     cmd.Parameters.AddWithValue("@id", jobId);

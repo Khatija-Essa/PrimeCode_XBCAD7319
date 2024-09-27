@@ -33,7 +33,7 @@ namespace PrimeCode_XBCAD7319.Admin
         //display the count of how many people have contacted the users
         private void CountactCount()
         {
-            using (SqlConnection con = new SqlConnection("Data Source=labVMH8OX\\SQLEXPRESS;Initial Catalog=JobConnector;MultipleActiveResultSets=True;Integrated Security=True;Encrypt=False"))
+            using (SqlConnection con = new SqlConnection("Server=tcp:primecode.database.windows.net,1433;Initial Catalog=JobConnector;Persist Security Info=False;User ID=primecode;Password=xbcad@7319;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
             {
                 sda = new SqlDataAdapter("Select Count (*) from Contact", con);
                 dt = new DataTable();
@@ -53,7 +53,7 @@ namespace PrimeCode_XBCAD7319.Admin
         //display the amount of partners registered for thie job
         private void Partner()
         {
-            using (SqlConnection con = new SqlConnection("Data Source=labVMH8OX\\SQLEXPRESS;Initial Catalog=JobConnector;MultipleActiveResultSets=True;Integrated Security=True;Encrypt=False"))
+            using (SqlConnection con = new SqlConnection("Server=tcp:primecode.database.windows.net,1433;Initial Catalog=JobConnector;Persist Security Info=False;User ID=primecode;Password=xbcad@7319;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
             {
                 sda = new SqlDataAdapter("Select Count (*) from Partner", con);
                 dt = new DataTable();
@@ -71,7 +71,7 @@ namespace PrimeCode_XBCAD7319.Admin
         //display how many user applied for the job
         private void AppliedJobs()
         {
-            using (SqlConnection con = new SqlConnection("Data Source=labVMH8OX\\SQLEXPRESS;Initial Catalog=JobConnector;MultipleActiveResultSets=True;Integrated Security=True;Encrypt=False"))
+            using (SqlConnection con = new SqlConnection("Server=tcp:primecode.database.windows.net,1433;Initial Catalog=JobConnector;Persist Security Info=False;User ID=primecode;Password=xbcad@7319;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
             {
                 sda = new SqlDataAdapter("Select Count (*) from AppliedJobs", con);
                 dt = new DataTable();
@@ -89,7 +89,7 @@ namespace PrimeCode_XBCAD7319.Admin
         //display the count of the jobs uploaded on this website
         private void Jobs()
         {
-            using (SqlConnection con = new SqlConnection("Data Source=labVMH8OX\\SQLEXPRESS;Initial Catalog=JobConnector;MultipleActiveResultSets=True;Integrated Security=True;Encrypt=False"))
+            using (SqlConnection con = new SqlConnection("Server=tcp:primecode.database.windows.net,1433;Initial Catalog=JobConnector;Persist Security Info=False;User ID=primecode;Password=xbcad@7319;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
             {
                 sda = new SqlDataAdapter("Select Count (*) from Jobs", con);
                 dt = new DataTable();
@@ -107,7 +107,7 @@ namespace PrimeCode_XBCAD7319.Admin
         //display the count of user registered on the wbesite
         private void Users()
         {
-            using (SqlConnection con = new SqlConnection("Data Source=labVMH8OX\\SQLEXPRESS;Initial Catalog=JobConnector;MultipleActiveResultSets=True;Integrated Security=True;Encrypt=False"))
+            using (SqlConnection con = new SqlConnection("Server=tcp:primecode.database.windows.net,1433;Initial Catalog=JobConnector;Persist Security Info=False;User ID=primecode;Password=xbcad@7319;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
             {
                 sda = new SqlDataAdapter("Select Count (*) from [User]", con);
                 dt = new DataTable();

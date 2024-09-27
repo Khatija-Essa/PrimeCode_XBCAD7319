@@ -18,15 +18,8 @@
                     <asp:TextBox ID="txtUserName" TextMode="SingleLine" CssClass="border border-zinc-300 rounded w-full p-3 text-lg" placeholder="Enter your username" runat="server" required></asp:TextBox>
                 </div>
                 <div class="mb-4">
-                    <label class="block text-zinc-700 text-lg">Password</label>
+                    <label class="block text-zinc-700 text-lg">Generated Password</label>
                     <asp:TextBox ID="txtPassword" TextMode="Password" CssClass="border border-zinc-300 rounded w-full p-3 text-lg" placeholder="Enter your password" runat="server" required></asp:TextBox>
-                </div>
-                <div class="mb-4">
-                    <label class="block text-zinc-700 text-lg">Confirm Password</label>
-                    <asp:TextBox ID="txtComfirmPassword" TextMode="Password" CssClass="border border-zinc-300 rounded w-full p-3 text-lg" placeholder="Confirm your password" runat="server" required></asp:TextBox>
-                    <asp:CompareValidator ID="CompareValidator1" runat="server" ErrorMessage="Password and confirm password should be the same"
-                        ControlToCompare="txtPassword" ControlToValidate="txtComfirmPassword" ForeColor="Red" Display="Dynamic" SetFocusOnError="true" 
-                        Font-Size="Small"></asp:CompareValidator>
                 </div>
                 <div class="mb-4">
                     <label class="block text-zinc-700 text-lg">User Type</label> 

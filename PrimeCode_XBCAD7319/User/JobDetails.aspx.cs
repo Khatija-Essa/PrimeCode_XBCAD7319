@@ -22,7 +22,7 @@ namespace PrimeCode_XBCAD7319.User
         //this will display all the job details that the company have inputed on our new job page
         private void showJobDetail()
         {
-            using (SqlConnection con = new SqlConnection("Data Source=labVMH8OX\\SQLEXPRESS;Initial Catalog=JobConnector;Integrated Security=True;Encrypt=False"))
+            using (SqlConnection con = new SqlConnection("Server=tcp:primecode.database.windows.net,1433;Initial Catalog=JobConnector;Persist Security Info=False;User ID=primecode;Password=xbcad@7319;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
             {
                 string query = "SELECT * FROM Jobs WHERE JobId = @id";
                 cmd = new SqlCommand(query, con);
@@ -46,7 +46,7 @@ namespace PrimeCode_XBCAD7319.User
                     {
                         try
                         {
-                            using (SqlConnection con = new SqlConnection("Data Source=labVMH8OX\\SQLEXPRESS;Initial Catalog=JobConnector;Integrated Security=True;Encrypt=False"))
+                            using (SqlConnection con = new SqlConnection("Server=tcp:primecode.database.windows.net,1433;Initial Catalog=JobConnector;Persist Security Info=False;User ID=primecode;Password=xbcad@7319;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
                             {
                                 string query = "INSERT INTO AppliedJobs (JobId, UserId) VALUES (@JobId, @userId)";
                                 cmd = new SqlCommand(query, con);
@@ -114,7 +114,7 @@ namespace PrimeCode_XBCAD7319.User
         //to check if a user has already applied for this job or not 
         private bool iSApplied(int userId, int jobId)
         {
-            using (SqlConnection con = new SqlConnection("Data Source=labVMH8OX\\SQLEXPRESS;Initial Catalog=JobConnector;Integrated Security=True;Encrypt=False"))
+            using (SqlConnection con = new SqlConnection("Server=tcp:primecode.database.windows.net,1433;Initial Catalog=JobConnector;Persist Security Info=False;User ID=primecode;Password=xbcad@7319;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
             {
                 string query = "SELECT COUNT(1) FROM AppliedJobs WHERE UserId = @UserId AND JobId = @JobId";
                 cmd = new SqlCommand(query, con);

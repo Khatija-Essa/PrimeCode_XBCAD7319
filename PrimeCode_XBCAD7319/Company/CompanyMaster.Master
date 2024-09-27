@@ -119,7 +119,6 @@
                   <ul class="!mb-1 flex flex-wrap gap-4">
                       <li><a href="CompanyHome.aspx">Home</a></li
                       <li><a href="CompanyProfile.aspx">Profile</a></li>
-                      <li><a href="NewJob.aspx">Add a job</a></li>
                   </ul>
                   <div>
                     <asp:Literal ID="litUserName" runat="server"></asp:Literal>

@@ -33,7 +33,7 @@ namespace PrimeCode_XBCAD7319.User
         {
             try
             {
-                using (SqlConnection con = new SqlConnection("Data Source=labVMH8OX\\SQLEXPRESS;Initial Catalog=JobConnector;MultipleActiveResultSets=True;Integrated Security=True;Encrypt=False"))
+                using (SqlConnection con = new SqlConnection("Server=tcp:primecode.database.windows.net,1433;Initial Catalog=JobConnector;Persist Security Info=False;User ID=primecode;Password=xbcad@7319;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
                 {
                     con.Open();
 
@@ -62,7 +62,7 @@ namespace PrimeCode_XBCAD7319.User
 
                     // Hash the password
                     string salt;
-                    string hashedPassword = GenerateHash(txtComfirmPassword.Text.Trim(), out salt);
+                    string hashedPassword = GenerateHash(txtPassword.Text, out salt);
 
                     cmd = new SqlCommand(query, con);
                     cmd.Parameters.AddWithValue("@Username", txtUserName.Text.Trim());
@@ -116,7 +116,6 @@ namespace PrimeCode_XBCAD7319.User
             txtEmail.Text = string.Empty;
             txtMobile.Text = string.Empty;
             txtAddress.Text = string.Empty;
-            txtComfirmPassword.Text = string.Empty;
             ddlProvinces.ClearSelection();
             ddlUserType.ClearSelection();
         }

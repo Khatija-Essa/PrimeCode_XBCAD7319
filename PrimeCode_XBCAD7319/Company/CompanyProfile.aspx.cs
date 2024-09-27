@@ -27,7 +27,7 @@ namespace PrimeCode_XBCAD7319.Company
         //will have the company details from the company databse 
         private void ShowCompanyProfile()
         {
-            using (SqlConnection con = new SqlConnection("Data Source=labVMH8OX\\SQLEXPRESS;Initial Catalog=JobConnector;Integrated Security=True;Encrypt=False"))
+            using (SqlConnection con = new SqlConnection("Server=tcp:primecode.database.windows.net,1433;Initial Catalog=JobConnector;Persist Security Info=False;User ID=primecode;Password=xbcad@7319;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
             {
                 string query = "SELECT CompanyId, Username, Name, Address, Mobile, Email, Province, ProfileImage FROM Company WHERE Username=@username";
                 cmd = new SqlCommand(query, con);
@@ -73,7 +73,7 @@ namespace PrimeCode_XBCAD7319.Company
 
                         fuProfileImage.SaveAs(savePath);
 
-                        using (SqlConnection con = new SqlConnection("Data Source=labVMH8OX\\SQLEXPRESS;Initial Catalog=JobConnector;Integrated Security=True;Encrypt=False"))
+                        using (SqlConnection con = new SqlConnection("Server=tcp:primecode.database.windows.net,1433;Initial Catalog=JobConnector;Persist Security Info=False;User ID=primecode;Password=xbcad@7319;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
                         {
                             string query = "UPDATE Company SET ProfileImage = @ProfileImage WHERE CompanyId = @CompanyId";
                             cmd = new SqlCommand(query, con);
@@ -99,7 +99,7 @@ namespace PrimeCode_XBCAD7319.Company
             Button btnSaveChanges = (Button)sender;
             string companyId = btnSaveChanges.CommandArgument;
 
-            using (SqlConnection con = new SqlConnection("Data Source=labVMH8OX\\SQLEXPRESS;Initial Catalog=JobConnector;Integrated Security=True;Encrypt=False"))
+            using (SqlConnection con = new SqlConnection("Server=tcp:primecode.database.windows.net,1433;Initial Catalog=JobConnector;Persist Security Info=False;User ID=primecode;Password=xbcad@7319;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
             {
                 string query = "UPDATE Company SET Name = @Name, Email = @Email, Mobile = @Mobile, Address = @Address WHERE CompanyId = @CompanyId";
                 cmd = new SqlCommand(query, con);

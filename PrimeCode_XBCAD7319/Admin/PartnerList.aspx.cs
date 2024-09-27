@@ -22,7 +22,7 @@ namespace PrimeCode_XBCAD7319.Admin
         //code to get the data from both the partner databse and the user databse 
         private void ShowPartnerList()
         {
-            string connectionString = "Data Source=labVMH8OX\\SQLEXPRESS;Initial Catalog=JobConnector;MultipleActiveResultSets=True;Integrated Security=True;Encrypt=False";
+            string connectionString = "Server=tcp:primecode.database.windows.net,1433;Initial Catalog=JobConnector;Persist Security Info=False;User ID=primecode;Password=xbcad@7319;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
             string query = @"
             SELECT 
                 p.PartnerId,
@@ -76,7 +76,7 @@ namespace PrimeCode_XBCAD7319.Admin
                     return;
                 }
 
-                string connectionString = "Data Source=labVMH8OX\\SQLEXPRESS;Initial Catalog=JobConnector;MultipleActiveResultSets=True;Integrated Security=True;Encrypt=False";
+                string connectionString = "Server=tcp:primecode.database.windows.net,1433;Initial Catalog=JobConnector;Persist Security Info=False;User ID=primecode;Password=xbcad@7319;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
                 string query = "DELETE FROM PartnerDocuments WHERE PartnerId = @PartnerId";
 
                 using (SqlConnection con = new SqlConnection(connectionString))

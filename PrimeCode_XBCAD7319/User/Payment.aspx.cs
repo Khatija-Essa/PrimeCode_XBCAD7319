@@ -93,7 +93,7 @@ namespace PrimeCode_XBCAD7319.User
         // Saves the payment session with default PaymentMade status as "no"
         private void SavePaymentSession(string username, string plan, string sessionId, string paymentMade)
         {
-            string connectionString = "Data Source=labVMH8OX\\SQLEXPRESS;Initial Catalog=JobConnector;MultipleActiveResultSets=True;Integrated Security=True;Encrypt=False";
+            string connectionString = "Server=tcp:primecode.database.windows.net,1433;Initial Catalog=JobConnector;Persist Security Info=False;User ID=primecode;Password=xbcad@7319;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 
             using (SqlConnection con = new SqlConnection(connectionString))
             {
@@ -117,7 +117,7 @@ namespace PrimeCode_XBCAD7319.User
         // Immediately updates PaymentMade status to 'yes' upon button submit
         private void UpdatePaymentStatusForImmediatePayment(string username, string plan)
         {
-            string connectionString = "Data Source=labVMH8OX\\SQLEXPRESS;Initial Catalog=JobConnector;MultipleActiveResultSets=True;Integrated Security=True;Encrypt=False";
+            string connectionString = "Server=tcp:primecode.database.windows.net,1433;Initial Catalog=JobConnector;Persist Security Info=False;User ID=primecode;Password=xbcad@7319;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 
             using (SqlConnection con = new SqlConnection(connectionString))
             {

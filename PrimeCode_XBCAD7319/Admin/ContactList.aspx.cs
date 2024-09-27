@@ -26,7 +26,7 @@ namespace PrimeCode_XBCAD7319.Admin
         private void ShowContact()
         {
             string query = string.Empty;
-            using (SqlConnection con = new SqlConnection("Data Source=labVMH8OX\\SQLEXPRESS;Initial Catalog=JobConnector;MultipleActiveResultSets=True;Integrated Security=True;Encrypt=False"))
+            using (SqlConnection con = new SqlConnection("Server=tcp:primecode.database.windows.net,1433;Initial Catalog=JobConnector;Persist Security Info=False;User ID=primecode;Password=xbcad@7319;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
             {
                 query = @"SELECT ContactId, Name, Email, Message FROM Contact ORDER BY ContactId";
                 cmd = new SqlCommand(query, con);
@@ -50,7 +50,7 @@ namespace PrimeCode_XBCAD7319.Admin
             {
                 GridViewRow row = GridView1.Rows[e.RowIndex];
                 int contactId = Convert.ToInt32(GridView1.DataKeys[e.RowIndex].Values[0]);
-                using (SqlConnection con = new SqlConnection("Data Source=labVMH8OX\\SQLEXPRESS;Initial Catalog=JobConnector;MultipleActiveResultSets=True;Integrated Security=True;Encrypt=False"))
+                using (SqlConnection con = new SqlConnection("Server=tcp:primecode.database.windows.net,1433;Initial Catalog=JobConnector;Persist Security Info=False;User ID=primecode;Password=xbcad@7319;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
                 {
                     cmd = new SqlCommand("DELETE FROM Contact WHERE ContactId = @id", con);
                     cmd.Parameters.AddWithValue("@id", contactId);
