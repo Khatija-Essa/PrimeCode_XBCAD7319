@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Configuration;
 
 namespace PrimeCode_XBCAD7319.Admin
 {
@@ -13,6 +14,8 @@ namespace PrimeCode_XBCAD7319.Admin
     {
         SqlCommand cmd;
         DataTable dt;
+        private static readonly string connectionString = ConfigurationManager.ConnectionStrings["AzureDBConnection"].ConnectionString;
+
         protected void Page_PreRender(object sender, EventArgs e)
         {
             //checks the user is logged in before being redirected to the page 
@@ -34,7 +37,7 @@ namespace PrimeCode_XBCAD7319.Admin
         //will display payment details with what user type  and thier email by check which username matches the payment username. looks at the user and company databse.
         private void ShowPaymentDetails()
         {
-            using (SqlConnection con = new SqlConnection("Server=tcp:primecode.database.windows.net,1433;Initial Catalog=JobConnector;Persist Security Info=False;User ID=primecode;Password=xbcad@7319;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
+            using (SqlConnection con = new SqlConnection(connectionString))
             {
                 // Query to join PaymentSessions with User and Company tables
                 string query = @"

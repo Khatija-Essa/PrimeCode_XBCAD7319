@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using Stripe;
 using Stripe.Checkout;
+using System.Configuration;
 
 namespace PrimeCode_XBCAD7319.User
 {
     public partial class Payment : System.Web.UI.Page
     {
+        private static readonly string connectionString = ConfigurationManager.ConnectionStrings["AzureDBConnection"].ConnectionString;
+
         protected void Page_Load(object sender, EventArgs e)
         {
         }
@@ -93,8 +96,6 @@ namespace PrimeCode_XBCAD7319.User
         // Saves the payment session with default PaymentMade status as "no"
         private void SavePaymentSession(string username, string plan, string sessionId, string paymentMade)
         {
-            string connectionString = "Server=tcp:primecode.database.windows.net,1433;Initial Catalog=JobConnector;Persist Security Info=False;User ID=primecode;Password=xbcad@7319;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
-
             using (SqlConnection con = new SqlConnection(connectionString))
             {
                 string query = @"INSERT INTO PaymentSessions (Username, [Plan], SessionId, CreatedAt, PaymentMade) 
@@ -117,8 +118,6 @@ namespace PrimeCode_XBCAD7319.User
         // Immediately updates PaymentMade status to 'yes' upon button submit
         private void UpdatePaymentStatusForImmediatePayment(string username, string plan)
         {
-            string connectionString = "Server=tcp:primecode.database.windows.net,1433;Initial Catalog=JobConnector;Persist Security Info=False;User ID=primecode;Password=xbcad@7319;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
-
             using (SqlConnection con = new SqlConnection(connectionString))
             {
                 string query = @"UPDATE PaymentSessions 
@@ -138,8 +137,7 @@ namespace PrimeCode_XBCAD7319.User
     }
 }
 
-
- /*Code Attribute for Payment
- * Source: https://docs.stripe.com/payments/accept-a-payment?platform=web&ui=embedded-form
- * Creater : stripe Docs
- */
+/*Code Attribute for Payment
+* Source: https://docs.stripe.com/payments/accept-a-payment?platform=web&ui=embedded-form
+* Creater : stripe Docs
+*/

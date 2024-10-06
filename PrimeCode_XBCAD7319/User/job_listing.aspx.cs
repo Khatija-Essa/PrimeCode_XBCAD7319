@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Configuration;
 
 namespace PrimeCode_XBCAD7319.User
 {
@@ -13,25 +14,49 @@ namespace PrimeCode_XBCAD7319.User
         SqlCommand cmd;
         SqlDataAdapter sda;
         DataTable dt;
-        
+        private static readonly string connectionString = ConfigurationManager.ConnectionStrings["AzureDBConnection"].ConnectionString;
 
-           protected void Page_Load(object sender, EventArgs e)
-{//user needs to be logged in before the filter pages opens
-    if (Session["userId"] == null)
-    {
-        Response.Redirect("../User/Login.aspx");
-        return; 
-    }
-    //will show page once loggedin
-    if (!IsPostBack)
-    {
-        // Load the initial job list when the page first loads
-        LoadInitialJobList();
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            //user needs to be logged in before the filter pages opens
+            if (Session["userId"] == null)
+            {
+                Response.Redirect("../User/Login.aspx");
+                return; 
+            }
+            //will show page once loggedin
+            if (!IsPostBack)
+            {
+                // Load the initial job list when the page first loads
+                LoadInitialJobList();
 
-        // Check filter usage status from the database
-        CheckFilterUsageStatus();
-    }
-}
+                // Check filter usage status from the database
+                CheckFilterUsageStatus();
+
+                // Load provinces
+                LoadProvinces();
+            }
+        }
+
+        private void LoadProvinces()
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+                string query = "SELECT [ProvinceName] FROM [Province]";
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        ddlProvinces.DataSource = reader;
+                        ddlProvinces.DataTextField = "ProvinceName";
+                        ddlProvinces.DataValueField = "ProvinceName";
+                        ddlProvinces.DataBind();
+                    }
+                }
+            }
+            ddlProvinces.Items.Insert(0, new ListItem("Select Province", "0"));
+        }
 
         //code to load find a job page 
         private void LoadInitialJobList()
@@ -45,10 +70,9 @@ namespace PrimeCode_XBCAD7319.User
         //code to check if a user has clicked the filter button more then once 
         private void CheckFilterUsageStatus()
         {
-            
             int userId = Convert.ToInt32(Session["UserId"]);
 
-            using (SqlConnection con = new SqlConnection("Server=tcp:primecode.database.windows.net,1433;Initial Catalog=JobConnector;Persist Security Info=False;User ID=primecode;Password=xbcad@7319;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
+            using (SqlConnection con = new SqlConnection(connectionString))
             {
                 con.Open();
                 string query = "SELECT FilterCount, HasPaid FROM UserFilterTracking WHERE UserId = @UserId";
@@ -75,10 +99,11 @@ namespace PrimeCode_XBCAD7319.User
                 }
             }
         }
+
         //tracks how many filter search a user has done
         private void InsertUserFilterTracking(int userId)
         {
-            using (SqlConnection con = new SqlConnection("Server=tcp:primecode.database.windows.net,1433;Initial Catalog=JobConnector;Persist Security Info=False;User ID=primecode;Password=xbcad@7319;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
+            using (SqlConnection con = new SqlConnection(connectionString))
             {
                 con.Open();
                 string query = "INSERT INTO UserFilterTracking (UserId, FilterCount, HasPaid) VALUES (@UserId, 0, 0)";
@@ -93,7 +118,7 @@ namespace PrimeCode_XBCAD7319.User
         //shows the job list 
         private void showJobList(string query = null, List<SqlParameter> parameters = null)
         {
-            using (SqlConnection con = new SqlConnection("Server=tcp:primecode.database.windows.net,1433;Initial Catalog=JobConnector;Persist Security Info=False;User ID=primecode;Password=xbcad@7319;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
+            using (SqlConnection con = new SqlConnection(connectionString))
             {
                 query = query ?? "SELECT JobId, Title, Salary, JobType, CompanyName, CompanyImage, Province, CreateDate FROM Jobs";
                 using (cmd = new SqlCommand(query, con))
@@ -113,6 +138,7 @@ namespace PrimeCode_XBCAD7319.User
             DataList1.DataBind();
             lbljobCount.Text = GetJobCountMessage(dt.Rows.Count);
         }
+
         /*Code Attribute for ContactList
  * Source: https://youtube.com/playlist?list=PL4HegTSNb5KEuVLeB9dDvENr2lqbsSSK3&si=7Gi5mDIHcPu5xANP
  * Creater : Tech Tips Ulimited- Online Job Portal using ASP.NET C# and Sql Server
@@ -133,6 +159,7 @@ namespace PrimeCode_XBCAD7319.User
                 return "No jobs found";
             }
         }
+
         /*Code Attribute for ContactList
  * Source: https://youtube.com/playlist?list=PL4HegTSNb5KEuVLeB9dDvENr2lqbsSSK3&si=7Gi5mDIHcPu5xANP
  * Creater : Tech Tips Ulimited- Online Job Portal using ASP.NET C# and Sql Server
@@ -208,10 +235,11 @@ namespace PrimeCode_XBCAD7319.User
                 Response.Write("<script>alert('" + ex.Message + "');</script>");
             }
         }
+
         //will update the filter account depending if user has paid or not
         private void UpdateFilterCount(int userId, int filterCount)
         {
-            using (SqlConnection con = new SqlConnection("Server=tcp:primecode.database.windows.net,1433;Initial Catalog=JobConnector;Persist Security Info=False;User ID=primecode;Password=xbcad@7319;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
+            using (SqlConnection con = new SqlConnection(connectionString))
             {
                 con.Open();
                 string query = "UPDATE UserFilterTracking SET FilterCount = @FilterCount WHERE UserId = @UserId";
@@ -223,10 +251,11 @@ namespace PrimeCode_XBCAD7319.User
                 }
             }
         }
+
         //code to check if payment is done and they can have unlimited filter searches
         private bool IsUserInPaymentSessions(string username)
         {
-            using (SqlConnection con = new SqlConnection("Server=tcp:primecode.database.windows.net,1433;Initial Catalog=JobConnector;Persist Security Info=False;User ID=primecode;Password=xbcad@7319;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
+            using (SqlConnection con = new SqlConnection(connectionString))
             {
                 con.Open();
                 string query = "SELECT COUNT(*) FROM PaymentSessions WHERE Username = @Username";
@@ -239,6 +268,7 @@ namespace PrimeCode_XBCAD7319.User
                 }
             }
         }
+
         //code for the checked boxes for joy type
         private string SelectedCheckBox()
         {
@@ -284,6 +314,7 @@ namespace PrimeCode_XBCAD7319.User
 
             return postedDateCondition;
         }
+
         /*Code Attribute for ContactList
  * Source: https://youtube.com/playlist?list=PL4HegTSNb5KEuVLeB9dDvENr2lqbsSSK3&si=7Gi5mDIHcPu5xANP
  * Creater : Tech Tips Ulimited- Online Job Portal using ASP.NET C# and Sql Server
@@ -300,6 +331,7 @@ namespace PrimeCode_XBCAD7319.User
             // Reload the initial job list after resetting filters
             LoadInitialJobList();
         }
+
         /*Code Attribute for ContactList
  * Source: https://youtube.com/playlist?list=PL4HegTSNb5KEuVLeB9dDvENr2lqbsSSK3&si=7Gi5mDIHcPu5xANP
  * Creater : Tech Tips Ulimited- Online Job Portal using ASP.NET C# and Sql Server
@@ -316,6 +348,7 @@ namespace PrimeCode_XBCAD7319.User
                 }
             }
         }
+
         /*Code Attribute for ContactList
  * Source: https://youtube.com/playlist?list=PL4HegTSNb5KEuVLeB9dDvENr2lqbsSSK3&si=7Gi5mDIHcPu5xANP
  * Creater : Tech Tips Ulimited- Online Job Portal using ASP.NET C# and Sql Server
@@ -333,6 +366,7 @@ namespace PrimeCode_XBCAD7319.User
                 return ResolveUrl($"~/{url}");
             }
         }
+
         /*Code Attribute for ContactList
  * Source: https://youtube.com/playlist?list=PL4HegTSNb5KEuVLeB9dDvENr2lqbsSSK3&si=7Gi5mDIHcPu5xANP
  * Creater : Tech Tips Ulimited- Online Job Portal using ASP.NET C# and Sql Server
@@ -362,6 +396,5 @@ namespace PrimeCode_XBCAD7319.User
 
             return $"{(int)(timeSpan.TotalDays / 365)} years ago";
         }
-
     }
 }

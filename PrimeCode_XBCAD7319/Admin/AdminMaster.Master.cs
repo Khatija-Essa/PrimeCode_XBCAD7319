@@ -3,30 +3,47 @@ using System.Web.UI;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Data;
+using System.Web.UI.WebControls;
+using System.Web.Services;
+using System.Collections.Generic;
+using System.Web;
+using System.Linq;
 
 namespace PrimeCode_XBCAD7319.Admin
 {
     public partial class AdminMaster : System.Web.UI.MasterPage
     {
-        SqlConnection con = new SqlConnection(@"Server=tcp:primecode.database.windows.net,1433;Initial Catalog=JobConnector;Persist Security Info=False;User ID=primecode;Password=xbcad@7319;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
-        int count = 0;
+        private static readonly string connectionString = ConfigurationManager.ConnectionStrings["AzureDBConnection"].ConnectionString;
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack)
+            try
             {
-                if (Session["userId"] != null && Session["username"] != null)
+                if (!IsPostBack)
                 {
-                    litUserName.Text = $"Welcome : {Session["username"]}";
-                    btnLogout.Visible = true;
-                    LoadNotifications();
+                    if (Session["userId"] != null && Session["username"] != null)
+                    {
+                        if (litUserName != null)
+                            litUserName.Text = $"Welcome : {Session["username"]}";
+
+                        if (btnLogout != null)
+                            btnLogout.Visible = true;
+
+                        LoadNotifications();
+                    }
+                    else
+                    {
+                        if (btnLogout != null)
+                            btnLogout.Visible = false;
+
+                        SetNotificationCount("0");
+                    }
                 }
-                else
-                {
-                    btnLogout.Visible = false;
-                    notification1.Text = "0";
-                    notification2.Text = "0";
-                }
+            }
+            catch (Exception ex)
+            {
+                // Log the error
+                System.Diagnostics.Debug.WriteLine("Error in Page_Load: " + ex.Message);
             }
         }
 
@@ -34,50 +51,126 @@ namespace PrimeCode_XBCAD7319.Admin
         {
             try
             {
-                if (con.State == ConnectionState.Closed)
-                {
-                    con.Open();
-                }
-                SqlCommand cmd = con.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM PaymentSessions WHERE PaymentMade = 'yes'";
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-                count = dt.Rows.Count;
-
-                // We'll set these values, but they'll be updated by JavaScript
-                notification1.Text = count.ToString();
-                notification2.Text = count.ToString();
-
-                r1.DataSource = dt;
-                r1.DataBind();
+                var notificationData = GetNotifications();
+                UpdateNotificationUI(notificationData);
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error: " + ex.Message);
-                notification1.Text = "0";
-                notification2.Text = "0";
+                // Log the error
+                System.Diagnostics.Debug.WriteLine("Error in LoadNotifications: " + ex.Message);
             }
-            finally
+        }
+
+        private void UpdateNotificationUI(DataTable dt)
+        {
+            try
             {
-                if (con.State == ConnectionState.Open)
+                if (dt != null)
                 {
-                    con.Close();
+                    int count = dt.Rows.Count;
+                    SetNotificationCount(count.ToString());
+
+                    if (r1 != null)
+                    {
+                        r1.DataSource = dt;
+                        r1.DataBind();
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                // Log the error
+                System.Diagnostics.Debug.WriteLine("Error in UpdateNotificationUI: " + ex.Message);
+            }
+        }
+
+        private void SetNotificationCount(string count)
+        {
+            if (notification1 != null)
+                notification1.Text = count;
+            if (notification2 != null)
+                notification2.Text = count;
+        }
+
+        private static DataTable GetNotifications()
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                using (SqlConnection con = new SqlConnection(connectionString))
+                {
+                    con.Open();
+                    using (SqlCommand cmd = new SqlCommand("SELECT Username, [Plan] FROM PaymentSessions WHERE PaymentMade = 'yes' ORDER BY CreatedAt DESC", con))
+                    {
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the error
+                System.Diagnostics.Debug.WriteLine("Error in GetNotifications: " + ex.Message);
+            }
+            return dt;
         }
 
         /*Code Attribute for AdminMaster(paymet notifcation)          
         *Source: https://youtu.be/jxGhb5gyP2s?si=YvFLFWCmjsHq6vJ4          
         *Creater : Amit Andipara         
         */
-
         protected void btnLogout_Click(object sender, EventArgs e)
         {
-            Session.Clear();
-            Session.Abandon();
-            Response.Redirect("../User/Default.aspx");
+            try
+            {
+                Session.Clear();
+                Session.Abandon();
+                Response.Redirect("../User/Default.aspx");
+            }
+            catch (Exception ex)
+            {
+                // Log the error
+                System.Diagnostics.Debug.WriteLine("Error in btnLogout_Click: " + ex.Message);
+            }
+        }
+
+        protected void r1_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            try
+            {
+                if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+                {
+                    LinkButton clearButton = e.Item.FindControl("ClearButton") as LinkButton;
+                    if (clearButton != null)
+                    {
+                        clearButton.Attributes["data-index"] = e.Item.ItemIndex.ToString();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the error
+                System.Diagnostics.Debug.WriteLine("Error in r1_ItemDataBound: " + ex.Message);
+            }
+        }
+
+        [WebMethod]
+        public static void UpdateNotificationCount(int newCount)
+        {
+            try
+            {
+                if (HttpContext.Current?.Session != null)
+                {
+                    HttpContext.Current.Session["NotificationCount"] = newCount;
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the error
+                System.Diagnostics.Debug.WriteLine("Error in UpdateNotificationCount: " + ex.Message);
+            }
         }
     }
 }

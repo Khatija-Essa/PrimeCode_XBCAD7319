@@ -3,6 +3,7 @@ using System.Data.SqlClient;
 using System.Data;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Configuration;
 
 namespace PrimeCode_XBCAD7319.User
 {
@@ -11,6 +12,7 @@ namespace PrimeCode_XBCAD7319.User
         SqlCommand cmd;
         DataTable dt;
         SqlDataAdapter sda;
+        private static readonly string connectionString = ConfigurationManager.ConnectionStrings["AzureDBConnection"].ConnectionString;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -19,10 +21,11 @@ namespace PrimeCode_XBCAD7319.User
                 showJobDetail();
             }
         }
+
         //this will display all the job details that the company have inputed on our new job page
         private void showJobDetail()
         {
-            using (SqlConnection con = new SqlConnection("Server=tcp:primecode.database.windows.net,1433;Initial Catalog=JobConnector;Persist Security Info=False;User ID=primecode;Password=xbcad@7319;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
+            using (SqlConnection con = new SqlConnection(connectionString))
             {
                 string query = "SELECT * FROM Jobs WHERE JobId = @id";
                 cmd = new SqlCommand(query, con);
@@ -46,7 +49,7 @@ namespace PrimeCode_XBCAD7319.User
                     {
                         try
                         {
-                            using (SqlConnection con = new SqlConnection("Server=tcp:primecode.database.windows.net,1433;Initial Catalog=JobConnector;Persist Security Info=False;User ID=primecode;Password=xbcad@7319;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
+                            using (SqlConnection con = new SqlConnection(connectionString))
                             {
                                 string query = "INSERT INTO AppliedJobs (JobId, UserId) VALUES (@JobId, @userId)";
                                 cmd = new SqlCommand(query, con);
@@ -111,10 +114,11 @@ namespace PrimeCode_XBCAD7319.User
                 }
             }
         }
+
         //to check if a user has already applied for this job or not 
         private bool iSApplied(int userId, int jobId)
         {
-            using (SqlConnection con = new SqlConnection("Server=tcp:primecode.database.windows.net,1433;Initial Catalog=JobConnector;Persist Security Info=False;User ID=primecode;Password=xbcad@7319;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
+            using (SqlConnection con = new SqlConnection(connectionString))
             {
                 string query = "SELECT COUNT(1) FROM AppliedJobs WHERE UserId = @UserId AND JobId = @JobId";
                 cmd = new SqlCommand(query, con);
@@ -125,6 +129,7 @@ namespace PrimeCode_XBCAD7319.User
                 return count > 0;
             }
         }
+
         //to have the image display on the job details page
         protected string GetImageUrl(object url)
         {
@@ -139,6 +144,7 @@ namespace PrimeCode_XBCAD7319.User
         }
     }
 }
+
 /*Code Attribute for ContactList
  * Source: https://youtube.com/playlist?list=PL4HegTSNb5KEuVLeB9dDvENr2lqbsSSK3&si=7Gi5mDIHcPu5xANP
  * Creater : Tech Tips Ulimited- Online Job Portal using ASP.NET C# and Sql Server

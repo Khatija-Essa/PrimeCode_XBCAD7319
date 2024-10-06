@@ -3,6 +3,8 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web.UI;
 using System.IO;
+using System.Configuration;
+using System.Web.UI.WebControls;
 
 namespace PrimeCode_XBCAD7319.User
 {
@@ -10,15 +12,17 @@ namespace PrimeCode_XBCAD7319.User
     {
         SqlCommand cmd;
         string query;
+        private static readonly string connectionString = ConfigurationManager.ConnectionStrings["AzureDBConnection"].ConnectionString;
 
         protected void Page_Load(object sender, EventArgs e)
-        {//ensure user is logged in before opening the page
+        {
             if (Session["username"] == null)
             {
                 Response.Redirect("Login.aspx");
             }
             if (!IsPostBack)
-            {//based on the user id it will display some of the user information
+            {
+                LoadProvinces();
                 if (Request.QueryString["id"] != null)
                 {
                     showUserInfo();
@@ -29,12 +33,32 @@ namespace PrimeCode_XBCAD7319.User
                 }
             }
         }
-        //this will show the inofrtaion that saved in the database and users can either add more information to textboxes not filled out or edit thier information
+
+        private void LoadProvinces()
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+                string query = "SELECT [ProvinceName] FROM [Province]";
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        ddlProvinces.DataSource = reader;
+                        ddlProvinces.DataTextField = "ProvinceName";
+                        ddlProvinces.DataValueField = "ProvinceName";
+                        ddlProvinces.DataBind();
+                    }
+                }
+            }
+            ddlProvinces.Items.Insert(0, new ListItem("Select Province", "0"));
+        }
+
         private void showUserInfo()
         {
             try
             {
-                using (SqlConnection con = new SqlConnection("Server=tcp:primecode.database.windows.net,1433;Initial Catalog=JobConnector;Persist Security Info=False;User ID=primecode;Password=xbcad@7319;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
+                using (SqlConnection con = new SqlConnection(connectionString))
                 {
                     query = "SELECT * FROM [User] WHERE UserId=@userId";
                     cmd = new SqlCommand(query, con);
@@ -69,12 +93,13 @@ namespace PrimeCode_XBCAD7319.User
                 Response.Write("<script>alert('" + ex.Message + "');</script>");
             }
         }
+
         //to save their new information to the database 
         protected void btnUpload_Click(object sender, EventArgs e)
         {
             try
             {
-                using (SqlConnection con = new SqlConnection("Server=tcp:primecode.database.windows.net,1433;Initial Catalog=JobConnector;Persist Security Info=False;User ID=primecode;Password=xbcad@7319;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
+                using (SqlConnection con = new SqlConnection(connectionString))
                 {
                     if (Request.QueryString["id"] != null)
                     {

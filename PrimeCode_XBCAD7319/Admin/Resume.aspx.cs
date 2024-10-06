@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Drawing;
+using System.Configuration;
 
 namespace PrimeCode_XBCAD7319.Admin
 {
@@ -14,6 +15,7 @@ namespace PrimeCode_XBCAD7319.Admin
     {
         SqlCommand cmd;
         DataTable dt;
+        private static readonly string connectionString = ConfigurationManager.ConnectionStrings["AzureDBConnection"].ConnectionString;
         protected void Page_Load(object sender, EventArgs e)
         {//checks the user is logged in before redirecting them to the page
             if (Session["userId"] == null)
@@ -32,7 +34,7 @@ namespace PrimeCode_XBCAD7319.Admin
         private void ShowAppliedJob()
         {
             string query = string.Empty;
-            using (SqlConnection con = new SqlConnection("Server=tcp:primecode.database.windows.net,1433;Initial Catalog=JobConnector;Persist Security Info=False;User ID=primecode;Password=xbcad@7319;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
+            using (SqlConnection con = new SqlConnection(connectionString))
             {
                 query = @"Select Row_Number() over(Order by(Select 1)) as [Sr.No], aj.AppliedJobId, j.CompanyName, aj.JobId, j.Title, u.Mobile,
                     u.Name, u.Email, u.Resume, u.Transcript, u.ID, u.Matric, u.CV from AppliedJobs aj

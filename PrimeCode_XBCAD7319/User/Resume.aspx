@@ -2,7 +2,6 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-<body>
     <div class="container mx-auto p-6 bg-white rounded-lg shadow-md" style="padding-bottom: 500px;">
         <div class="col-12 p-8">
             <asp:Label ID="lblMsg" runat="server" Visible="false"></asp:Label>
@@ -30,15 +29,11 @@
             </div>
             <div class="mb-8">
                 <label class="block text-zinc-700 text-lg">Province</label>
-                <asp:DropDownList ID="ddlProvinces" runat="server" DataSourceID="SqlDataSource1" CssClass="border border-zinc-300 rounded w-full p-3 text-lg"
-                    AppendDataBoundItems="True" DataTextField="ProvinceName" DataValueField="ProvinceName">
-                    <asp:ListItem Value="0">Select Province</asp:ListItem>
+                <asp:DropDownList ID="ddlProvinces" runat="server" CssClass="border border-zinc-300 rounded w-full p-3 text-lg">
                 </asp:DropDownList>
                 <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="Province is required"
                     ForeColor="Red" Display="Dynamic" SetFocusOnError="true" Font-Size="Small" InitialValue="0" 
                     ControlToValidate="ddlProvinces"></asp:RequiredFieldValidator>
-                <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:JobConnectorConnectionString2 %>" 
-                    ProviderName="<%$ ConnectionStrings:JobConnectorConnectionString2.ProviderName %>" SelectCommand="SELECT [ProvinceName] FROM [Province]"></asp:SqlDataSource>
             </div>
             <div class="mb-4">
                 <label class="block text-black mb-1" for="txtEmail">Email</label>
@@ -81,5 +76,4 @@
             <asp:Button ID="btnupload" runat="server" Text="Update" CssClass="bg-[#035772] text-white rounded w-full p-5 text-lg hover:bg-[#A5C8D4]" OnClick="btnUpload_Click" />
         </div>
     </div>
-</body>
 </asp:Content>

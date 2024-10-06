@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
@@ -14,6 +15,7 @@ namespace PrimeCode_XBCAD7319.Admin
     {
         SqlCommand cmd;
         DataTable dt;
+        private static readonly string connectionString = ConfigurationManager.ConnectionStrings["AzureDBConnection"].ConnectionString;
 
         protected void Page_PreRender(object sender, EventArgs e)
         {//makes sure user is logged in first
@@ -35,7 +37,7 @@ namespace PrimeCode_XBCAD7319.Admin
         private void ShowJob()
         {
             string query = string.Empty;
-            using (SqlConnection con = new SqlConnection("Server=tcp:primecode.database.windows.net,1433;Initial Catalog=JobConnector;Persist Security Info=False;User ID=primecode;Password=xbcad@7319;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
+            using (SqlConnection con = new SqlConnection(connectionString))
             {
                 query = @"Select Row_Number() over(Order by(Select 1)) as [Sr.No], JobId, Title,NoOfPost, Description, Qualification, Experience, 
                         LastDateToApply, CompanyName, Province, CreateDate from Jobs  ";
@@ -65,7 +67,7 @@ namespace PrimeCode_XBCAD7319.Admin
             {
                 GridViewRow row = GridView1.Rows[e.RowIndex];
                 int jobId = Convert.ToInt32(GridView1.DataKeys[e.RowIndex].Values[0]);
-                using (SqlConnection con = new SqlConnection("Server=tcp:primecode.database.windows.net,1433;Initial Catalog=JobConnector;Persist Security Info=False;User ID=primecode;Password=xbcad@7319;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
+                using (SqlConnection con = new SqlConnection(connectionString))
                 {
                     cmd = new SqlCommand("Delete from Jobs where JobId = @id", con);
                     cmd.Parameters.AddWithValue("@id", jobId);

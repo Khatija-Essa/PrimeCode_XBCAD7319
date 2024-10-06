@@ -33,6 +33,15 @@ namespace PrimeCode_XBCAD7319.Admin
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
 
         /// <summary>
+        /// ScriptManager1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.ScriptManager ScriptManager1;
+
+        /// <summary>
         /// litUserName control.
         /// </summary>
         /// <remarks>
@@ -51,6 +60,24 @@ namespace PrimeCode_XBCAD7319.Admin
         protected global::System.Web.UI.WebControls.LinkButton btnLogout;
 
         /// <summary>
+        /// UpdatePanel1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UpdatePanel1;
+
+        /// <summary>
+        /// notificationDropdownToggle control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton notificationDropdownToggle;
+
+        /// <summary>
         /// notification1 control.
         /// </summary>
         /// <remarks>
@@ -58,6 +85,15 @@ namespace PrimeCode_XBCAD7319.Admin
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label notification1;
+
+        /// <summary>
+        /// notificationDropdown control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel notificationDropdown;
 
         /// <summary>
         /// notification2 control.

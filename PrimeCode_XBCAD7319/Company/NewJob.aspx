@@ -93,14 +93,14 @@
                 <label for="txtAddress" class="font-semibold">Address</label>
                 <asp:TextBox ID="txtAddress" runat="server" CssClass="form-control border border-gray-300 rounded p-2 w-full" placeholder="Enter Address" TextMode="MultiLine" Rows="3"></asp:TextBox>
             </div>
-            <div>
-                <label for="ddlProvinces" class="font-semibold">Province</label>
-                <asp:DropDownList ID="ddlProvinces" runat="server" CssClass="form-control border border-gray-300 rounded p-2 w-full" DataSourceID="SqlDataSource1" DataTextField="ProvinceName" DataValueField="ProvinceName" AppendDataBoundItems="True">
-                    <asp:ListItem Value="0">Select Province</asp:ListItem>
-                </asp:DropDownList>
-                <asp:RequiredFieldValidator ID="rfvProvinces" runat="server" ErrorMessage="Province is required" ForeColor="Red" Display="Dynamic" SetFocusOnError="true" InitialValue="0" ControlToValidate="ddlProvinces"></asp:RequiredFieldValidator>
-                <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:JobConnectorConnectionString2 %>" ProviderName="<%$ ConnectionStrings:JobConnectorConnectionString2.ProviderName %>" SelectCommand="SELECT [ProvinceName] FROM [Province]"></asp:SqlDataSource>
-            </div>
+            <div class="mb-8">
+     <label class="block text-zinc-700 text-lg">Province</label>
+     <asp:DropDownList ID="ddlProvinces" runat="server" CssClass="border border-zinc-300 rounded w-full p-3 text-lg">
+     </asp:DropDownList>
+     <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="Province is required"
+         ForeColor="Red" Display="Dynamic" SetFocusOnError="true" Font-Size="Small" InitialValue="0" 
+         ControlToValidate="ddlProvinces" ></asp:RequiredFieldValidator>
+ </div>
         </div>
     
         <div class="mt-6">

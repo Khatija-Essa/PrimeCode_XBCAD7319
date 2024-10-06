@@ -2,15 +2,46 @@
 using System.Data.SqlClient;
 using System.Security.Cryptography;
 using System.Text;
+using System.Configuration;
+using System.Web.UI.WebControls;
 
 namespace PrimeCode_XBCAD7319.User
 {
     public partial class register : System.Web.UI.Page
     {
         SqlCommand cmd;
+        private static readonly string connectionString = ConfigurationManager.ConnectionStrings["AzureDBConnection"].ConnectionString;
+
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                LoadProvinces();
+            }
+        }
+
+        private void LoadProvinces()
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+                string query = "SELECT [ProvinceName] FROM [Province]";
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        ddlProvinces.DataSource = reader;
+                        ddlProvinces.DataTextField = "ProvinceName";
+                        ddlProvinces.DataValueField = "ProvinceName";
+                        ddlProvinces.DataBind();
+                    }
+                }
+            }
+            ddlProvinces.Items.Insert(0, new ListItem("Select Province", "0"));
+        }
 
         private string GenerateHash(string password, out string salt)
-        {//code for hashing the passwords
+        {
             using (var rng = new RNGCryptoServiceProvider())
             {
                 byte[] saltBytes = new byte[16];
@@ -33,12 +64,11 @@ namespace PrimeCode_XBCAD7319.User
         {
             try
             {
-                using (SqlConnection con = new SqlConnection("Server=tcp:primecode.database.windows.net,1433;Initial Catalog=JobConnector;Persist Security Info=False;User ID=primecode;Password=xbcad@7319;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
+                using (SqlConnection con = new SqlConnection(connectionString))
                 {
                     con.Open();
 
                     string query = "";
-                    // Determine which table to insert data into based on selected user type
                     switch (ddlUserType.SelectedValue)
                     {
                         case "user":
@@ -60,7 +90,6 @@ namespace PrimeCode_XBCAD7319.User
                             return;
                     }
 
-                    // Hash the password
                     string salt;
                     string hashedPassword = GenerateHash(txtPassword.Text, out salt);
 
@@ -107,7 +136,7 @@ namespace PrimeCode_XBCAD7319.User
                 Response.Write("<script>alert('" + ex.Message + "');</script>");
             }
         }
-        //clears data once it is saved to the databse
+
         private void clear()
         {
             txtUserName.Text = string.Empty;

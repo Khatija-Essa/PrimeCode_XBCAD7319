@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style type="text/tailwindcss">
         @layer base {
             :root {
@@ -96,10 +97,11 @@
             display: none;
             position: absolute;
             right: 0;
+            top: 100%;
             background-color: white;
             min-width: 200px;
             box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 1;
+            z-index: 1000;
             border-radius: 4px;
             max-height: 300px;
             overflow-y: auto;
@@ -141,12 +143,25 @@
             justify-content: space-between;
             width: 100%;
         }
+
+        .notification-bell {
+            cursor: pointer;
+            position: relative;
+            z-index: 1001;
+        }
+
+        .for-message {
+            position: relative;
+        }
     </style>
-    <asp:ContentPlaceHolder ID="head" runat="server"></asp:ContentPlaceHolder>   
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
 </head>
 <body>
     <form id="form1" runat="server">
+        <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true"></asp:ScriptManager>
         <div class="w-full bg-[#D9D9D9]">
+            <!-- Header section -->
             <div class="flex flex-col items-center">
                 <div class="w-full relative z-1 p-2 md:p-3">
                     <header class="flex flex-col items-center">
@@ -169,30 +184,34 @@
                                 <div class="flex items-center relative">
                                     <asp:Literal ID="litUserName" runat="server"></asp:Literal>
                                     <asp:LinkButton ID="btnLogout" runat="server" OnClick="btnLogout_Click" CssClass="text-black hover:text-blue-600 mr-4">Logout</asp:LinkButton>
-                                    <div class="dropdown for-message relative">
-                                        <button class="notification-bell" type="button" id="notificationDropdownToggle">
-                                            <img src="../public/images/bell-icon-png.png" alt="Notification Bell" class="w-6 h-6">
-                                            <span class="notification-badge"><asp:Label ID="notification1" runat="server"></asp:Label></span>
-                                        </button>
-                                        <div class="dropdown-menu" id="notificationDropdown" aria-labelledby="notificationDropdownToggle">
-                                            <div class="dropdown-header p-3 bg-gray-100 font-semibold">
-                                                You have <asp:Label ID="notification2" runat="server"></asp:Label> Notifications
-                                            </div>
-                                            <asp:Repeater ID="r1" runat="server">
-                                                <ItemTemplate>
-                                                    <div class="dropdown-item">
-                                                        <a href="Payment.aspx" class="flex justify-between items-center w-full">
-                                                            <div>
-                                                                <div class="font-semibold"><%# Eval("Username") %></div>
-                                                                <div class="text-sm text-gray-600"><%# Eval("[Plan]") %></div>
-                                                            </div>
-                                                            <button type="button" class="btn-clear" onclick="clearNotification(event, this, <%# Container.ItemIndex %>)">Clear</button>
-                                                        </a>
+                                    <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
+                                        <ContentTemplate>
+                                            <div class="dropdown for-message relative">
+                                                <asp:LinkButton ID="notificationDropdownToggle" runat="server" CssClass="notification-bell" ClientIDMode="Static">
+                                                    <img src="../public/images/bell-icon-png.png" alt="Notification Bell" class="w-6 h-6">
+                                                    <span class="notification-badge"><asp:Label ID="notification1" runat="server"></asp:Label></span>
+                                                </asp:LinkButton>
+                                                <asp:Panel ID="notificationDropdown" runat="server" CssClass="dropdown-menu" ClientIDMode="Static">
+                                                    <div class="dropdown-header p-3 bg-gray-100 font-semibold">
+                                                        You have <asp:Label ID="notification2" runat="server"></asp:Label> Notifications
                                                     </div>
-                                                </ItemTemplate>
-                                            </asp:Repeater>
-                                        </div>
-                                    </div>
+                                                    <asp:Repeater ID="r1" runat="server" OnItemDataBound="r1_ItemDataBound">
+                                                        <ItemTemplate>
+                                                            <div class="dropdown-item">
+                                                                <a href="Payment.aspx" class="flex justify-between items-center w-full">
+                                                                    <div>
+                                                                        <div class="font-semibold"><%# Eval("Username") %></div>
+                                                                        <div class="text-sm text-gray-600"><%# Eval("Plan") %></div>
+                                                                    </div>
+                                                                    <button type="button" class="btn-clear" onclick="clearNotification(event, this, <%# Container.ItemIndex %>)">Clear</button>
+                                                                </a>
+                                                            </div>
+                                                        </ItemTemplate>
+                                                    </asp:Repeater>
+                                                </asp:Panel>
+                                            </div>
+                                        </ContentTemplate>
+                                    </asp:UpdatePanel>
                                 </div>
                             </div>
                         </div>
@@ -216,75 +235,94 @@
         </footer>
     </form>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var dropdownToggle = document.getElementById('notificationDropdownToggle');
-            var dropdownMenu = document.getElementById('notificationDropdown');
-
-            dropdownToggle.addEventListener('click', function (event) {
-                event.stopPropagation();
-                dropdownMenu.classList.toggle('show');
+    <script type="text/javascript">
+        function initializeNotifications() {
+            $('#notificationDropdownToggle').click(function (e) {
+                e.preventDefault();
+                $('#notificationDropdown').toggle();
             });
 
-            document.addEventListener('click', function (event) {
-                if (!dropdownToggle.contains(event.target) && !dropdownMenu.contains(event.target)) {
-                    dropdownMenu.classList.remove('show');
+            $(document).click(function (e) {
+                if (!$(e.target).closest('.dropdown').length) {
+                    $('#notificationDropdown').hide();
                 }
             });
 
-            
+            // Attach click event to all clear buttons
+            $('.btn-clear').click(function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                var $item = $(this).closest('.dropdown-item');
+                var username = $item.find('.font-semibold').text();
+                var plan = $item.find('.text-gray-600').text();
+                clearNotification($item, username, plan);
+            });
+
             applyClearedNotifications();
+        }
+
+        function clearNotification($item, username, plan) {
+            // Remove the notification item from the DOM
+            $item.remove();
+
+            // Update notification count
+            var currentCount = parseInt($('#<%= notification1.ClientID %>').text());
+        var newCount = Math.max(currentCount - 1, 0);  // Ensure count doesn't go below 0
+        $('#<%= notification1.ClientID %>, #<%= notification2.ClientID %>').text(newCount);
+
+        // Hide dropdown if no notifications left
+        if (newCount === 0) {
+            $('#<%= notificationDropdown.ClientID %>').hide();
+        }
+
+        // Store cleared notification in localStorage
+        storeClearedNotification(username, plan);
+
+        // Update notification count on server
+        if (typeof PageMethods !== 'undefined') {
+            PageMethods.UpdateNotificationCount(newCount, function (response) {
+                console.log("Notification count updated");
+            }, function (error) {
+                console.error("Error updating notification count:", error);
+            });
+        }
+
+        return false;
+    }
+
+    function storeClearedNotification(username, plan) {
+        let clearedNotifications = JSON.parse(localStorage.getItem('clearedNotifications') || '[]');
+        clearedNotifications.push(username + '_' + plan);
+        localStorage.setItem('clearedNotifications', JSON.stringify(clearedNotifications));
+    }
+
+    function applyClearedNotifications() {
+        let clearedNotifications = JSON.parse(localStorage.getItem('clearedNotifications') || '[]');
+        let notificationItems = $('.dropdown-item');
+        let notificationCount = notificationItems.length;
+
+        notificationItems.each(function(index, item) {
+            let username = $(item).find('.font-semibold').text();
+            let plan = $(item).find('.text-gray-600').text();
+            let notificationId = username + '_' + plan;
+
+            if (clearedNotifications.includes(notificationId)) {
+                $(item).remove();
+                notificationCount--;
+            }
         });
 
-        function clearNotification(event, button, index) {
-            event.preventDefault();
-            event.stopPropagation();
+        $('#<%= notification1.ClientID %>, #<%= notification2.ClientID %>').text(notificationCount);
 
-            var notificationItem = button.closest('.dropdown-item');
-            notificationItem.style.display = 'none';
-
-            var notificationCount = parseInt(document.getElementById('notification1').innerText);
-            notificationCount--;
-            document.getElementById('notification1').innerText = notificationCount;
-            document.getElementById('notification2').innerText = notificationCount;
-
-            if (notificationCount === 0) {
-                document.getElementById('notificationDropdown').innerHTML = '<div class="dropdown-header p-3 bg-gray-100 font-semibold">You have 0 Notifications</div>';
+        if (notificationCount === 0) {
+            $('#<%= notificationDropdown.ClientID %>').html('<div class="dropdown-header p-3 bg-gray-100 font-semibold">You have 0 Notifications</div>');
             }
-
-            if (notificationCount === 0) {
-                document.querySelector('.notification-badge').style.display = 'none';
-            }
-
-           
-            storeClearedNotification(index);
         }
 
-        function storeClearedNotification(index) {
-            let clearedNotifications = JSON.parse(localStorage.getItem('clearedNotifications') || '[]');
-            clearedNotifications.push(index);
-            localStorage.setItem('clearedNotifications', JSON.stringify(clearedNotifications));
-        }
-
-        function applyClearedNotifications() {
-            let clearedNotifications = JSON.parse(localStorage.getItem('clearedNotifications') || '[]');
-            let notificationItems = document.querySelectorAll('.dropdown-item');
-            let notificationCount = notificationItems.length;
-
-            clearedNotifications.forEach(index => {
-                if (index < notificationItems.length) {
-                    notificationItems[index].style.display = 'none';
-                    notificationCount--;
-                }
-            });
-
-            document.getElementById('notification1').innerText = notificationCount;
-            document.getElementById('notification2').innerText = notificationCount;
-
-            if (notificationCount === 0) {
-                document.getElementById('notificationDropdown').innerHTML = '<div class="dropdown-header p-3 bg-gray-100 font-semibold">You have 0 Notifications</div>';
-                document.querySelector('.notification-badge').style.display = 'none';
-            }
+        // Initialize notifications on document ready and after each partial postback
+        $(document).ready(initializeNotifications);
+        if (typeof Sys !== 'undefined' && Sys.WebForms && Sys.WebForms.PageRequestManager) {
+            Sys.WebForms.PageRequestManager.getInstance().add_endRequest(initializeNotifications);
         }
     </script>
 </body>

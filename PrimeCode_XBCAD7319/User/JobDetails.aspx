@@ -44,7 +44,7 @@
         <div class="container mx-auto p-12">
             <asp:Label ID="lblMsg" runat="server" Visible="false"></asp:Label>
 
-            <asp:DataList ID="DataList1" runat="server" OnItemCommand="DataList1_ItemCommand">
+            <asp:DataList ID="DataList1" runat="server" OnItemCommand="DataList1_ItemCommand" OnItemDataBound="DataList1_ItemDataBound">
                 <ItemTemplate>
                     <div class="flex flex-col lg:flex-row lg:justify-between gap-12">
                         <!-- Left Section: Main Job Details -->

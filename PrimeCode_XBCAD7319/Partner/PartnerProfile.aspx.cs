@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
@@ -14,7 +15,7 @@ namespace PrimeCode_XBCAD7319.Partner
         private SqlCommand cmd;
         private DataTable dt;
         private SqlDataAdapter sda;
-        private string connectionString = "Server=tcp:primecode.database.windows.net,1433;Initial Catalog=JobConnector;Persist Security Info=False;User ID=primecode;Password=xbcad@7319;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+        private static readonly string connectionString = ConfigurationManager.ConnectionStrings["AzureDBConnection"].ConnectionString;
 
         protected void Page_Load(object sender, EventArgs e)
         {//make sure user is logged in before going to the page

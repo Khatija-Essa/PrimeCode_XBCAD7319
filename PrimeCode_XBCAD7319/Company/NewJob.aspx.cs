@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
@@ -11,8 +12,7 @@ namespace PrimeCode_XBCAD7319.Company
     {
         SqlCommand cmd;
         string query;
-        string connectionString = "Server=tcp:primecode.database.windows.net,1433;Initial Catalog=JobConnector;Persist Security Info=False;User ID=primecode;Password=xbcad@7319;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
-
+        private static readonly string connectionString = ConfigurationManager.ConnectionStrings["AzureDBConnection"].ConnectionString;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -20,6 +20,7 @@ namespace PrimeCode_XBCAD7319.Company
                 Session["title"] = "Add Job";
                 fillData();
                 SetLastDateValidation();
+                LoadProvinces();
             }
         }
 
@@ -214,6 +215,26 @@ namespace PrimeCode_XBCAD7319.Company
         {
             string[] fileExtensions = { ".jpg", ".png", ".jpeg" };
             return fileExtensions.Contains(Path.GetExtension(fileName).ToLower());
+        }
+
+        private void LoadProvinces()
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+                string query = "SELECT [ProvinceName] FROM [Province]";
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        ddlProvinces.DataSource = reader;
+                        ddlProvinces.DataTextField = "ProvinceName";
+                        ddlProvinces.DataValueField = "ProvinceName";
+                        ddlProvinces.DataBind();
+                    }
+                }
+            }
+            ddlProvinces.Items.Insert(0, new ListItem("Select Province", "0"));
         }
     }
 }

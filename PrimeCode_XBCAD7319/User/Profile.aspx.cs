@@ -3,6 +3,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Web.UI.WebControls;
+using System.Configuration;
 
 namespace PrimeCode_XBCAD7319.User
 {
@@ -11,6 +12,7 @@ namespace PrimeCode_XBCAD7319.User
         SqlCommand cmd;
         DataTable dt;
         SqlDataAdapter sda;
+        private static readonly string connectionString = ConfigurationManager.ConnectionStrings["AzureDBConnection"].ConnectionString;
 
         protected void Page_Load(object sender, EventArgs e)
         {//make sure use ris logged in before redirecting to the page
@@ -26,7 +28,7 @@ namespace PrimeCode_XBCAD7319.User
         //display user details 
         private void showUserProfile()
         {
-            using (SqlConnection con = new SqlConnection("Server=tcp:primecode.database.windows.net,1433;Initial Catalog=JobConnector;Persist Security Info=False;User ID=primecode;Password=xbcad@7319;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
+            using (SqlConnection con = new SqlConnection(connectionString))
             {
                 string query = "SELECT UserId, Username, Name, Address, Mobile, Email, Resume, ID, Matric, Transcript, Province, ProfileImage FROM [User] WHERE Username=@username";
                 cmd = new SqlCommand(query, con);
@@ -85,7 +87,7 @@ namespace PrimeCode_XBCAD7319.User
                         fuProfileImage.SaveAs(savePath);
 
                         // Save the relative file path to the database
-                        using (SqlConnection con = new SqlConnection("Server=tcp:primecode.database.windows.net,1433;Initial Catalog=JobConnector;Persist Security Info=False;User ID=primecode;Password=xbcad@7319;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
+                        using (SqlConnection con = new SqlConnection(connectionString))
                         {
                             string query = "UPDATE [User] SET ProfileImage = @ProfileImage WHERE UserId = @UserId";
                             cmd = new SqlCommand(query, con);
