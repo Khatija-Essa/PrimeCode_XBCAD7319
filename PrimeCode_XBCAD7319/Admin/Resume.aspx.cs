@@ -56,7 +56,7 @@ namespace PrimeCode_XBCAD7319.Admin
             ShowAppliedJob();
         }
 
-        
+
         //to click on a row and be redirect to the job list page to see what job it was
         protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
         {
@@ -66,9 +66,9 @@ namespace PrimeCode_XBCAD7319.Admin
         //to click on a row and be redirect to the joblist page
         protected void GridView1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            foreach(GridViewRow row in GridView1.Rows)
+            foreach (GridViewRow row in GridView1.Rows)
             {
-                if(row.RowIndex == GridView1.SelectedIndex)
+                if (row.RowIndex == GridView1.SelectedIndex)
                 {
                     HiddenField jobId = (HiddenField)row.FindControl("hdnJobId");
                     Response.Redirect("JobList.aspx?id=" + jobId.Value);
