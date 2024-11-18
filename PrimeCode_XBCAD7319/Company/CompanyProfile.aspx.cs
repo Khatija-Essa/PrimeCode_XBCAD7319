@@ -117,6 +117,8 @@ namespace PrimeCode_XBCAD7319.Company
 
             ShowCompanyProfile();
         }
+
+      
     }
 }
 /*Code Attribute for Company Profile

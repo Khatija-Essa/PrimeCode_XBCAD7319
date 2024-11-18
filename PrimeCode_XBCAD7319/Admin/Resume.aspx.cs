@@ -8,6 +8,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Drawing;
 using System.Configuration;
+using System.IO;
 
 namespace PrimeCode_XBCAD7319.Admin
 {
@@ -17,7 +18,8 @@ namespace PrimeCode_XBCAD7319.Admin
         DataTable dt;
         private static readonly string connectionString = ConfigurationManager.ConnectionStrings["AzureDBConnection"].ConnectionString;
         protected void Page_Load(object sender, EventArgs e)
-        {//checks the user is logged in before redirecting them to the page
+        {
+            //checks the user is logged in before redirecting them to the page
             if (Session["userId"] == null)
             {
                 Response.Redirect("../User/Login.aspx");
@@ -27,7 +29,6 @@ namespace PrimeCode_XBCAD7319.Admin
             {
                 ShowAppliedJob();
             }
-
         }
 
         //looks at the user and job table to display the job title, jobappliedid, company name, job id, and the user name,email,cv,resume,transcript,id, matric and mobile. 
@@ -56,33 +57,12 @@ namespace PrimeCode_XBCAD7319.Admin
             ShowAppliedJob();
         }
 
+       
 
-        //to click on a row and be redirect to the job list page to see what job it was
-        protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
-        {
-            e.Row.Attributes["onclick"] = Page.ClientScript.GetPostBackClientHyperlink(GridView1, "Select$" + e.Row.RowIndex);
-            e.Row.ToolTip = "Click to view job details";
-        }
-        //to click on a row and be redirect to the joblist page
-        protected void GridView1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            foreach (GridViewRow row in GridView1.Rows)
-            {
-                if (row.RowIndex == GridView1.SelectedIndex)
-                {
-                    HiddenField jobId = (HiddenField)row.FindControl("hdnJobId");
-                    Response.Redirect("JobList.aspx?id=" + jobId.Value);
-                }
-                else
-                {
 
-                    row.BackColor = ColorTranslator.FromHtml("#FFFFFF");
-                    row.ToolTip = "Click to select this row";
-                }
-            }
-        }
     }
 }
+
 /*Code Attribute for Resume
  * Source: https://youtube.com/playlist?list=PL4HegTSNb5KEuVLeB9dDvENr2lqbsSSK3&si=7Gi5mDIHcPu5xANP
  * Creater : Tech Tips Ulimited- Online Job Portal using ASP.NET C# and Sql Server

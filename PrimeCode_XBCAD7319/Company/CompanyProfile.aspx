@@ -104,7 +104,7 @@
 
 <body>
     <div class="flex flex-col lg:flex-row items-start bg-[#035772] p-6 pb-24 rounded-lg shadow-lg min-h-screen">
-        <asp:DataList ID="dlProfile" runat="server" Width="100%" OnItemCommand="dlProfile_ItemCommand">
+        <asp:DataList ID="dlProfile" runat="server" Width="100%" OnItemCommand="dlProfile_ItemCommand" OnRowCommand="GridView1_RowCommand" >
             <ItemTemplate>
                 <div class="relative flex flex-col lg:flex-row bg-[#035772] p-6 min-h-screen">
                     <!-- Left Side: Profile Picture and Information -->
@@ -139,6 +139,7 @@
                         <div class="mt-6 flex space-x-4">
                             <asp:Button ID="btnSaveChanges" runat="server" Text="Save Changes" CssClass="bg-[#035772] text-white font-semibold px-8 py-4 rounded-md hover:bg-[#A5C8D4]" CommandArgument='<%# Eval("CompanyId") %>' OnClick="btnSaveChanges_Click" />
                         </div>
+                 
                     </div>
                 </div>
             </ItemTemplate>

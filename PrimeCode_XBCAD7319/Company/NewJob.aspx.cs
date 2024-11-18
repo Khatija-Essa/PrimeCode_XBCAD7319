@@ -12,21 +12,70 @@ namespace PrimeCode_XBCAD7319.Company
     {
         SqlCommand cmd;
         string query;
+        // Connection string to the database
         private static readonly string connectionString = ConfigurationManager.ConnectionStrings["AzureDBConnection"].ConnectionString;
+
         protected void Page_Load(object sender, EventArgs e)
         {
+            // Check if the page is being loaded for the first time
             if (!IsPostBack)
             {
+                // Set session title for page
                 Session["title"] = "Add Job";
-                fillData();
-                SetLastDateValidation();
-                LoadProvinces();
+                LoadProvinces(); // Load provinces first
+                LoadMajorCities(); // Then load cities
+                SetLastDateValidation(); // Set the validation for the Last Date field
+                fillData(); // Finally fill the data if editing
             }
         }
 
         private void SetLastDateValidation()
         {
+            // Set the Last Date validation to ensure no past dates are entered
             cvLastDate.ValueToCompare = DateTime.Now.ToString("yyyy-MM-dd");
+        }
+
+        private void LoadProvinces()
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+                string query = "SELECT [ProvinceName] FROM [Province]";
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        ddlProvinces.DataSource = reader;
+                        ddlProvinces.DataTextField = "ProvinceName";
+                        ddlProvinces.DataValueField = "ProvinceName";
+                        ddlProvinces.DataBind();
+                    }
+                }
+            }
+            ddlProvinces.Items.Insert(0, new ListItem("Select Province", "0"));
+        }
+
+        private void LoadMajorCities()
+        {
+            ddlMajorCities.Items.Clear(); // Clear existing items first
+            ddlMajorCities.Items.Add(new ListItem("Select City", "0")); // Add default item with "0" value
+
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+                string query = "SELECT DISTINCT [CityName] FROM [MajorCities] ORDER BY [CityName]";
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            string cityName = reader["CityName"].ToString();
+                            ddlMajorCities.Items.Add(new ListItem(cityName, cityName));
+                        }
+                    }
+                }
+            }
         }
 
         private void fillData()
@@ -34,7 +83,6 @@ namespace PrimeCode_XBCAD7319.Company
             if (Request.QueryString["id"] != null)
             {
                 Session["title"] = "Edit Job";
-                linkback.Visible = true;
                 btnAdd.Text = "Update";
 
                 using (SqlConnection con = new SqlConnection(connectionString))
@@ -44,10 +92,12 @@ namespace PrimeCode_XBCAD7319.Company
                     cmd.Parameters.AddWithValue("@JobId", Request.QueryString["id"]);
                     con.Open();
                     SqlDataReader sdr = cmd.ExecuteReader();
+
                     if (sdr.HasRows)
                     {
                         while (sdr.Read())
                         {
+                            // Populate fields with job details
                             txtJobTitle.Text = sdr["Title"].ToString();
                             txtNoPost.Text = sdr["NoOfPost"].ToString();
                             txtDescription.Text = sdr["Description"].ToString();
@@ -61,7 +111,40 @@ namespace PrimeCode_XBCAD7319.Company
                             txtWebsite.Text = sdr["Website"].ToString();
                             txtEmail.Text = sdr["Email"].ToString();
                             txtAddress.Text = sdr["Address"].ToString();
-                            ddlProvinces.SelectedValue = sdr["Province"].ToString();
+
+                            // Handle Province and City selection
+                            string province = sdr["Province"].ToString();
+                            string majorCity = sdr["MajorCities"].ToString();
+
+                            // Set Province
+                            if (!string.IsNullOrEmpty(province))
+                            {
+                                ListItem provinceItem = ddlProvinces.Items.FindByValue(province);
+                                if (provinceItem != null)
+                                {
+                                    ddlProvinces.SelectedValue = province;
+                                }
+                            }
+
+                            // Set Major City
+                            if (!string.IsNullOrEmpty(majorCity))
+                            {
+                                ListItem cityItem = ddlMajorCities.Items.FindByValue(majorCity);
+                                if (cityItem != null)
+                                {
+                                    ddlMajorCities.SelectedValue = majorCity;
+                                }
+                                else
+                                {
+                                    // If the city doesn't exist in the dropdown, add it
+                                    ddlMajorCities.Items.Add(new ListItem(majorCity, majorCity));
+                                    ddlMajorCities.SelectedValue = majorCity;
+                                }
+                            }
+                            else
+                            {
+                                ddlMajorCities.SelectedValue = "0"; // Select the default option
+                            }
                         }
                     }
                     else
@@ -91,6 +174,7 @@ namespace PrimeCode_XBCAD7319.Company
                 else
                 {
                     queryType = "Saved";
+
                     if (CompanyLogo.HasFile)
                     {
                         if (IsValidExtension(CompanyLogo.FileName))
@@ -117,9 +201,9 @@ namespace PrimeCode_XBCAD7319.Company
                         if (Request.QueryString["id"] != null)
                         {
                             query = @"UPDATE Jobs SET Title = @Title, NoOfPost = @NoOfPost, Description = @Description, Qualification = @Qualification,
-                                      Experience = @Experience, Specialization = @Specialization, LastDateToApply = @LastDateToApply, 
-                                      Salary = @Salary, JobType = @JobType, CompanyName = @CompanyName, Website = @Website, 
-                                      Email = @Email, Address = @Address, Province = @Province";
+                                     Experience = @Experience, Specialization = @Specialization, LastDateToApply = @LastDateToApply, 
+                                     Salary = @Salary, JobType = @JobType, CompanyName = @CompanyName, Website = @Website, 
+                                     Email = @Email, Address = @Address, Province = @Province, MajorCities = @MajorCities";
 
                             if (CompanyLogo.HasFile)
                             {
@@ -136,9 +220,9 @@ namespace PrimeCode_XBCAD7319.Company
                         else
                         {
                             query = @"INSERT INTO Jobs (Title, NoOfPost, Description, Qualification, Experience, Specialization, LastDateToApply, 
-                                      Salary, JobType, CompanyName, CompanyImage, Website, Email, Address, Province, CreateDate) 
-                                      VALUES (@Title, @NoOfPost, @Description, @Qualification, @Experience, @Specialization, @LastDateToApply, 
-                                      @Salary, @JobType, @CompanyName, @CompanyImage, @Website, @Email, @Address, @Province, @CreateDate)";
+                                     Salary, JobType, CompanyName, CompanyImage, Website, Email, Address, Province, MajorCities, CreateDate) 
+                                     VALUES (@Title, @NoOfPost, @Description, @Qualification, @Experience, @Specialization, @LastDateToApply, 
+                                     @Salary, @JobType, @CompanyName, @CompanyImage, @Website, @Email, @Address, @Province, @MajorCities, @CreateDate)";
 
                             cmd = new SqlCommand(query, con);
                             cmd.Parameters.AddWithValue("@CreateDate", DateTime.Now);
@@ -151,6 +235,7 @@ namespace PrimeCode_XBCAD7319.Company
                             }
                         }
 
+                        // Add common parameters
                         cmd.Parameters.AddWithValue("@Title", txtJobTitle.Text.Trim());
                         cmd.Parameters.AddWithValue("@NoOfPost", Convert.ToInt32(txtNoPost.Text.Trim()));
                         cmd.Parameters.AddWithValue("@Description", txtDescription.Text.Trim());
@@ -166,6 +251,7 @@ namespace PrimeCode_XBCAD7319.Company
                         cmd.Parameters.AddWithValue("@Email", txtEmail.Text.Trim());
                         cmd.Parameters.AddWithValue("@Address", txtAddress.Text.Trim());
                         cmd.Parameters.AddWithValue("@Province", ddlProvinces.SelectedValue);
+                        cmd.Parameters.AddWithValue("@MajorCities", ddlMajorCities.SelectedValue);
 
                         con.Open();
                         int res = cmd.ExecuteNonQuery();
@@ -203,41 +289,23 @@ namespace PrimeCode_XBCAD7319.Company
             txtSpecialization.Text = string.Empty;
             txtLastDate.Text = string.Empty;
             txtSalary.Text = string.Empty;
+            ddlJobType.ClearSelection();
             txtCompany.Text = string.Empty;
             txtWebsite.Text = string.Empty;
             txtEmail.Text = string.Empty;
             txtAddress.Text = string.Empty;
-            ddlJobType.ClearSelection();
             ddlProvinces.ClearSelection();
+            ddlMajorCities.ClearSelection();
         }
 
         private bool IsValidExtension(string fileName)
         {
-            string[] fileExtensions = { ".jpg", ".png", ".jpeg" };
-            return fileExtensions.Contains(Path.GetExtension(fileName).ToLower());
-        }
-
-        private void LoadProvinces()
-        {
-            using (SqlConnection con = new SqlConnection(connectionString))
-            {
-                con.Open();
-                string query = "SELECT [ProvinceName] FROM [Province]";
-                using (SqlCommand cmd = new SqlCommand(query, con))
-                {
-                    using (SqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        ddlProvinces.DataSource = reader;
-                        ddlProvinces.DataTextField = "ProvinceName";
-                        ddlProvinces.DataValueField = "ProvinceName";
-                        ddlProvinces.DataBind();
-                    }
-                }
-            }
-            ddlProvinces.Items.Insert(0, new ListItem("Select Province", "0"));
+            string[] validFileExtensions = { ".jpg", ".jpeg", ".png" };
+            return validFileExtensions.Contains(Path.GetExtension(fileName).ToLower());
         }
     }
 }
+
 /*Code Attribute for New Job
  * Source: https://youtube.com/playlist?list=PL4HegTSNb5KEuVLeB9dDvENr2lqbsSSK3&si=7Gi5mDIHcPu5xANP
  * Creater : Tech Tips Ulimited- Online Job Portal using ASP.NET C# and Sql Server

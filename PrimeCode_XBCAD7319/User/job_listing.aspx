@@ -86,20 +86,43 @@
             margin-bottom: 20px;
             text-align: left; 
         }
+        .location-info {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .location-info i {
+            color: #666;
+        }
     </style>
+
     <div class="flex flex-col lg:flex-row">
+        <!-- Filter Section -->
         <div class="p-6 bg-background text-foreground lg:w-1/4">
             <div class="mb-6">
                 <h2 class="text-xl font-semibold">Filter Search</h2>
 
+                <!-- Province Dropdown -->
                 <div class="mb-8">
                     <label class="block text-black text-lg font-semibold mb-2" for="ddlProvinces">Province</label>
                     <asp:DropDownList ID="ddlProvinces" runat="server" CssClass="border border-black rounded w-3_4 p-2 text-lg"
-                        AppendDataBoundItems="True">
+                        AppendDataBoundItems="True" AutoPostBack="true" OnSelectedIndexChanged="ddlProvinces_SelectedIndexChanged">
                     </asp:DropDownList>
                     <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="Province is required"
                         ForeColor="Red" Display="Dynamic" SetFocusOnError="true" Font-Size="Small" InitialValue="0"
                         ControlToValidate="ddlProvinces"></asp:RequiredFieldValidator>
+                </div>
+
+                <!-- Major Cities Dropdown -->
+                <div class="mb-8">
+                    <label class="block text-black text-lg font-semibold mb-2" for="ddlMajorCities">Major City</label>
+                    <asp:DropDownList ID="ddlMajorCities" runat="server" CssClass="border border-black rounded w-3_4 p-2 text-lg"
+                        AppendDataBoundItems="True">
+                        <asp:ListItem Value="0">Select Major City</asp:ListItem>
+                    </asp:DropDownList>
+                    <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ErrorMessage="Major City is required"
+                        ForeColor="Red" Display="Dynamic" SetFocusOnError="true" Font-Size="Small" InitialValue="0"
+                        ControlToValidate="ddlMajorCities"></asp:RequiredFieldValidator>
                 </div>
 
                 <h3 class="text-black text-lg font-semibold mb-2">Job Type</h3>
@@ -135,6 +158,8 @@
                     OnClick="lbRest_Click">Reset</asp:LinkButton>
             </div>
         </div>
+
+        <!-- Job Listing Section -->
         <div class="job-listing-container lg:w-3/4 p-6">
             <section class="featured-job-area">
                 <div class="container">
@@ -160,7 +185,10 @@
                                         </a>
                                         <ul>
                                             <li><%# Eval("CompanyName") %></li>
-                                            <li><i class="fas fa-map-marker-alt"></i><%# Eval("Province") %></li>
+                                            <li class="location-info">
+                                                <i class="fas fa-map-marker-alt"></i>
+                                                <span><%# Eval("Province") %> - <%# Eval("MajorCities") %></span>
+                                            </li>
                                             <li><%# Eval("Salary") %></li>
                                             <li><%# Eval("JobType") %></li>
                                         </ul>

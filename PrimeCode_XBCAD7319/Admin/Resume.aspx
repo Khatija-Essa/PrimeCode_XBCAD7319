@@ -13,8 +13,7 @@
         <div class="table-responsive">
             <asp:GridView ID="GridView1" runat="server" CssClass="table table-hover table-bordered rounded-lg shadow-sm" 
                 EmptyDataText="No Records to display..." AutoGenerateColumns="False" AllowPaging="True" PageSize="5"
-                OnPageIndexChanging="GridView1_PageIndexChanging" DataKeyNames="AppliedJobId"
-                OnRowDataBound="GridView1_RowDataBound" OnSelectedIndexChanged="GridView1_SelectedIndexChanged">
+                OnPageIndexChanging="GridView1_PageIndexChanging" DataKeyNames="AppliedJobId" >
                 
                 <Columns>
                     <asp:BoundField DataField="Sr.No" HeaderText="Sr No." 
@@ -41,43 +40,38 @@
                         ItemStyle-HorizontalAlign="Center" ItemStyle-Width="10%" 
                         ItemStyle-BorderStyle="Solid" ItemStyle-BorderWidth="1px" ItemStyle-BorderColor="gray" />
 
+                   
                     <asp:TemplateField HeaderText="Cover Letter">
                         <ItemTemplate>
-                            <asp:HyperLink ID="hlResume" runat="server" 
-                                NavigateUrl='<%#DataBinder.Eval(Container,"DataItem.Resume", "../{0}") %>'>Download</asp:HyperLink>
-                            <asp:HiddenField ID="hdnJobId" runat="server" Value='<%# Eval("JobId") %>' Visible="false"/>
+                            <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl='<%# DataBinder.Eval(Container,"DataItem.Resume","../{0}") %>'><i class="fas fa-download"></i>Download</asp:HyperLink>
                         </ItemTemplate>
                         <ItemStyle Width="8%" HorizontalAlign="Center" BorderStyle="Solid" BorderWidth="1px" BorderColor="gray" />
                     </asp:TemplateField>
 
                     <asp:TemplateField HeaderText="Matric">
                         <ItemTemplate>
-                            <asp:HyperLink ID="hlMatric" runat="server" 
-                                NavigateUrl='<%#DataBinder.Eval(Container,"DataItem.Matric", "../{0}") %>'>Download</asp:HyperLink>
+                            <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl='<%# DataBinder.Eval(Container,"DataItem.Matric","../{0}") %>'><i class="fas fa-download"></i>Download</asp:HyperLink>
                         </ItemTemplate>
                         <ItemStyle Width="8%" HorizontalAlign="Center" BorderStyle="Solid" BorderWidth="1px" BorderColor="gray" />
                     </asp:TemplateField>
 
                     <asp:TemplateField HeaderText="ID">
                         <ItemTemplate>
-                            <asp:HyperLink ID="hlID" runat="server" 
-                                NavigateUrl='<%#DataBinder.Eval(Container,"DataItem.ID", "../{0}") %>'>Download</asp:HyperLink>
+                             <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl='<%# DataBinder.Eval(Container,"DataItem.ID","../{0}") %>'><i class="fas fa-download"></i>Download</asp:HyperLink>
                         </ItemTemplate>
                         <ItemStyle Width="8%" HorizontalAlign="Center" BorderStyle="Solid" BorderWidth="1px" BorderColor="gray" />
                     </asp:TemplateField>
 
                     <asp:TemplateField HeaderText="Transcript">
                         <ItemTemplate>
-                            <asp:HyperLink ID="hlTranscript" runat="server" 
-                                NavigateUrl='<%#DataBinder.Eval(Container,"DataItem.Transcript", "../{0}") %>'>Download</asp:HyperLink>
+                             <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl='<%# DataBinder.Eval(Container,"DataItem.Transcript","../{0}") %>'><i class="fas fa-download"></i>Download</asp:HyperLink>
                         </ItemTemplate>
                         <ItemStyle Width="8%" HorizontalAlign="Center" BorderStyle="Solid" BorderWidth="1px" BorderColor="gray" />
                     </asp:TemplateField>
 
                     <asp:TemplateField HeaderText="CV">
                         <ItemTemplate>
-                            <asp:HyperLink ID="hlCV" runat="server" 
-                                NavigateUrl='<%#DataBinder.Eval(Container,"DataItem.CV", "../{0}") %>'>Download</asp:HyperLink>
+                             <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl='<%# DataBinder.Eval(Container,"DataItem.CV","../{0}") %>'><i class="fas fa-download"></i>Download</asp:HyperLink>
                         </ItemTemplate>
                         <ItemStyle Width="8%" HorizontalAlign="Center" BorderStyle="Solid" BorderWidth="1px" BorderColor="gray" />
                     </asp:TemplateField>

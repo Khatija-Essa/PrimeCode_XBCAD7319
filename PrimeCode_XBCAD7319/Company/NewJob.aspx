@@ -93,7 +93,9 @@
                 <label for="txtAddress" class="font-semibold">Address</label>
                 <asp:TextBox ID="txtAddress" runat="server" CssClass="form-control border border-gray-300 rounded p-2 w-full" placeholder="Enter Address" TextMode="MultiLine" Rows="3"></asp:TextBox>
             </div>
-            <div class="mb-8">
+
+             <div class="flex space-x-4">
+                             <div class="w-1/2"">
      <label class="block text-zinc-700 text-lg">Province</label>
      <asp:DropDownList ID="ddlProvinces" runat="server" CssClass="border border-zinc-300 rounded w-full p-3 text-lg">
      </asp:DropDownList>
@@ -102,8 +104,24 @@
          ControlToValidate="ddlProvinces" ></asp:RequiredFieldValidator>
  </div>
         </div>
+        <div>
+              <div class="w-1/2">
+    <label class="block text-zinc-700 text-lg">Major City</label>
+    <asp:DropDownList ID="ddlMajorCities" runat="server" CssClass="border border-zinc-300 rounded w-full p-3 text-lg">
+        <asp:ListItem Value="0">Select Major City</asp:ListItem>
+    </asp:DropDownList>
+    <asp:RequiredFieldValidator ID="rfvMajorCity" runat="server" ErrorMessage="Major City is required"
+        ForeColor="Red" Display="Dynamic" SetFocusOnError="true" Font-Size="Small" InitialValue="0" 
+        ControlToValidate="ddlMajorCities"></asp:RequiredFieldValidator>
+</div >
+        </div>
+             </div>
+           
+ 
     
         <div class="mt-6">
+
+            
             <asp:Button ID="btnAdd" runat="server" Text="Upload" CssClass="bg-[#035772] text-white rounded w-full p-2 text-base hover:bg-[#A5C8D4]" OnClick="btnAdd_Click" />
         </div>
     </div>

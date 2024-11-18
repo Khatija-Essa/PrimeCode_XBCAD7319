@@ -22,7 +22,7 @@ namespace PrimeCode_XBCAD7319.User
             if (Session["userId"] == null)
             {
                 Response.Redirect("../User/Login.aspx");
-                return; 
+                return;
             }
             //will show page once loggedin
             if (!IsPostBack)
@@ -33,8 +33,9 @@ namespace PrimeCode_XBCAD7319.User
                 // Check filter usage status from the database
                 CheckFilterUsageStatus();
 
-                // Load provinces
+                // Load provinces and cities
                 LoadProvinces();
+                LoadMajorCities();
             }
         }
 
@@ -43,27 +44,57 @@ namespace PrimeCode_XBCAD7319.User
             using (SqlConnection con = new SqlConnection(connectionString))
             {
                 con.Open();
-                string query = "SELECT [ProvinceName] FROM [Province]";
+                // Updated query to select from Province table instead of Jobs table
+                string query = "SELECT [ProvinceName] FROM [Province] ORDER BY [ProvinceName]";
                 using (SqlCommand cmd = new SqlCommand(query, con))
                 {
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        ddlProvinces.DataSource = reader;
-                        ddlProvinces.DataTextField = "ProvinceName";
-                        ddlProvinces.DataValueField = "ProvinceName";
-                        ddlProvinces.DataBind();
+                        ddlProvinces.Items.Clear();
+                        ddlProvinces.Items.Add(new ListItem("Select Province", "0"));
+                        while (reader.Read())
+                        {
+                            string provinceName = reader["ProvinceName"].ToString();
+                            ddlProvinces.Items.Add(new ListItem(provinceName, provinceName));
+                        }
                     }
                 }
             }
-            ddlProvinces.Items.Insert(0, new ListItem("Select Province", "0"));
+        }
+
+        private void LoadMajorCities()
+        {
+            ddlMajorCities.Items.Clear();
+            ddlMajorCities.Items.Add(new ListItem("Select Major City", "0"));
+
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+                string query = "SELECT CityName FROM MajorCities ORDER BY CityName";
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            string cityName = reader["CityName"].ToString();
+                            ddlMajorCities.Items.Add(new ListItem(cityName, cityName));
+                        }
+                    }
+                }
+            }
+        }
+
+        protected void ddlProvinces_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LoadMajorCities();
         }
 
         //code to load find a job page 
         private void LoadInitialJobList()
         {
             List<SqlParameter> parameters = new List<SqlParameter>();
-            string query = "SELECT JobId, Title, Salary, JobType, CompanyName, CompanyImage, Province, CreateDate FROM Jobs WHERE 1=1";
-
+            string query = "SELECT JobId, Title, Salary, JobType, CompanyName, CompanyImage, Province, MajorCities, CreateDate FROM Jobs WHERE 1=1";
             showJobList(query, parameters);
         }
 
@@ -99,7 +130,6 @@ namespace PrimeCode_XBCAD7319.User
                 }
             }
         }
-
         //tracks how many filter search a user has done
         private void InsertUserFilterTracking(int userId)
         {
@@ -120,7 +150,7 @@ namespace PrimeCode_XBCAD7319.User
         {
             using (SqlConnection con = new SqlConnection(connectionString))
             {
-                query = query ?? "SELECT JobId, Title, Salary, JobType, CompanyName, CompanyImage, Province, CreateDate FROM Jobs";
+                query = query ?? "SELECT JobId, Title, Salary, JobType, CompanyName, CompanyImage, Province, MajorCities, CreateDate FROM Jobs";
                 using (cmd = new SqlCommand(query, con))
                 {
                     if (parameters != null)
@@ -139,11 +169,11 @@ namespace PrimeCode_XBCAD7319.User
             lbljobCount.Text = GetJobCountMessage(dt.Rows.Count);
         }
 
-        /*Code Attribute for ContactList
- * Source: https://youtube.com/playlist?list=PL4HegTSNb5KEuVLeB9dDvENr2lqbsSSK3&si=7Gi5mDIHcPu5xANP
- * Creater : Tech Tips Ulimited- Online Job Portal using ASP.NET C# and Sql Server
- */
-        //code ofr the total job list depending on how many are in the databse 
+        /*Code Attribute for JobList
+        * Source: https://youtube.com/playlist?list=PL4HegTSNb5KEuVLeB9dDvENr2lqbsSSK3&si=7Gi5mDIHcPu5xANP
+        * Creater : Tech Tips Ulimited- Online Job Portal using ASP.NET C# and Sql Server
+        */
+        //code for the total job list depending on how many are in the databse 
         private string GetJobCountMessage(int count)
         {
             if (count > 1)
@@ -160,10 +190,10 @@ namespace PrimeCode_XBCAD7319.User
             }
         }
 
-        /*Code Attribute for ContactList
- * Source: https://youtube.com/playlist?list=PL4HegTSNb5KEuVLeB9dDvENr2lqbsSSK3&si=7Gi5mDIHcPu5xANP
- * Creater : Tech Tips Ulimited- Online Job Portal using ASP.NET C# and Sql Server
- */
+        /*Code Attribute for JobList
+        * Source: https://youtube.com/playlist?list=PL4HegTSNb5KEuVLeB9dDvENr2lqbsSSK3&si=7Gi5mDIHcPu5xANP
+        * Creater : Tech Tips Ulimited- Online Job Portal using ASP.NET C# and Sql Server
+        */
         //code for the filter button so that it can filter the job as well as redirect the user to payment page for more then one filter search
         protected void lbFilter_Click(object sender, EventArgs e)
         {
@@ -192,7 +222,6 @@ namespace PrimeCode_XBCAD7319.User
                     {
                         // Update the FilterCount in the database
                         UpdateFilterCount(userId, filterCount);
-
                         Response.Redirect("~/User/Payment.aspx");
                         return;
                     }
@@ -202,13 +231,18 @@ namespace PrimeCode_XBCAD7319.User
                 }
 
                 List<SqlParameter> parameters = new List<SqlParameter>();
-                string query = "SELECT JobId, Title, Salary, JobType, CompanyName, CompanyImage, Province, CreateDate FROM Jobs WHERE 1=1";
+                string query = "SELECT JobId, Title, Salary, JobType, CompanyName, CompanyImage, Province, MajorCities, CreateDate FROM Jobs WHERE 1=1";
 
-                // Apply filters
                 if (ddlProvinces.SelectedValue != "0")
                 {
                     query += " AND Province = @Province";
                     parameters.Add(new SqlParameter("@Province", ddlProvinces.SelectedValue));
+                }
+
+                if (ddlMajorCities.SelectedValue != "0")
+                {
+                    query += " AND MajorCities = @MajorCities";
+                    parameters.Add(new SqlParameter("@MajorCities", ddlMajorCities.SelectedValue));
                 }
 
                 string jobType = SelectedCheckBox();
@@ -226,16 +260,11 @@ namespace PrimeCode_XBCAD7319.User
                 showJobList(query, parameters);
                 RBSelectedColourChange();
             }
-            /*Code Attribute for ContactList
- * Source: https://youtube.com/playlist?list=PL4HegTSNb5KEuVLeB9dDvENr2lqbsSSK3&si=7Gi5mDIHcPu5xANP
- * Creater : Tech Tips Ulimited- Online Job Portal using ASP.NET C# and Sql Server
- */
             catch (Exception ex)
             {
                 Response.Write("<script>alert('" + ex.Message + "');</script>");
             }
         }
-
         //will update the filter account depending if user has paid or not
         private void UpdateFilterCount(int userId, int filterCount)
         {
@@ -262,7 +291,6 @@ namespace PrimeCode_XBCAD7319.User
                 using (cmd = new SqlCommand(query, con))
                 {
                     cmd.Parameters.AddWithValue("@Username", username);
-
                     int count = (int)cmd.ExecuteScalar();
                     return count > 0;
                 }
@@ -307,7 +335,6 @@ namespace PrimeCode_XBCAD7319.User
                     postedDateCondition = $"CONVERT(DATE, CreateDate) BETWEEN '{today.AddDays(-10):yyyy-MM-dd}' AND '{today:yyyy-MM-dd}'";
                     break;
                 default:
-                    // Handle case where no date filter is selected
                     postedDateCondition = string.Empty;
                     break;
             }
@@ -315,27 +342,26 @@ namespace PrimeCode_XBCAD7319.User
             return postedDateCondition;
         }
 
-        /*Code Attribute for ContactList
- * Source: https://youtube.com/playlist?list=PL4HegTSNb5KEuVLeB9dDvENr2lqbsSSK3&si=7Gi5mDIHcPu5xANP
- * Creater : Tech Tips Ulimited- Online Job Portal using ASP.NET C# and Sql Server
- */
-
+        /*Code Attribute for JobList
+        * Source: https://youtube.com/playlist?list=PL4HegTSNb5KEuVLeB9dDvENr2lqbsSSK3&si=7Gi5mDIHcPu5xANP
+        * Creater : Tech Tips Ulimited- Online Job Portal using ASP.NET C# and Sql Server
+        */
         //code to clear the filter and show all the job
         protected void lbRest_Click(object sender, EventArgs e)
         {
             CheckBoxList1.ClearSelection();
             CheckBoxList2.ClearSelection();
             ddlProvinces.ClearSelection();
+            ddlMajorCities.ClearSelection();
             ddlProvinces.SelectedValue = "0";
-
-            // Reload the initial job list after resetting filters
+            ddlMajorCities.SelectedValue = "0";
             LoadInitialJobList();
         }
 
-        /*Code Attribute for ContactList
- * Source: https://youtube.com/playlist?list=PL4HegTSNb5KEuVLeB9dDvENr2lqbsSSK3&si=7Gi5mDIHcPu5xANP
- * Creater : Tech Tips Ulimited- Online Job Portal using ASP.NET C# and Sql Server
- */
+        /*Code Attribute for JobList
+        * Source: https://youtube.com/playlist?list=PL4HegTSNb5KEuVLeB9dDvENr2lqbsSSK3&si=7Gi5mDIHcPu5xANP
+        * Creater : Tech Tips Ulimited- Online Job Portal using ASP.NET C# and Sql Server
+        */
         protected void RBSelectedColourChange()
         {
             foreach (ListItem item in CheckBoxList2.Items)
@@ -349,11 +375,10 @@ namespace PrimeCode_XBCAD7319.User
             }
         }
 
-        /*Code Attribute for ContactList
- * Source: https://youtube.com/playlist?list=PL4HegTSNb5KEuVLeB9dDvENr2lqbsSSK3&si=7Gi5mDIHcPu5xANP
- * Creater : Tech Tips Ulimited- Online Job Portal using ASP.NET C# and Sql Server
- */
-
+        /*Code Attribute for JobList
+        * Source: https://youtube.com/playlist?list=PL4HegTSNb5KEuVLeB9dDvENr2lqbsSSK3&si=7Gi5mDIHcPu5xANP
+        * Creater : Tech Tips Ulimited- Online Job Portal using ASP.NET C# and Sql Server
+        */
         //to get the company image to display
         protected string GetImageUrl(object url)
         {
@@ -367,10 +392,10 @@ namespace PrimeCode_XBCAD7319.User
             }
         }
 
-        /*Code Attribute for ContactList
- * Source: https://youtube.com/playlist?list=PL4HegTSNb5KEuVLeB9dDvENr2lqbsSSK3&si=7Gi5mDIHcPu5xANP
- * Creater : Tech Tips Ulimited- Online Job Portal using ASP.NET C# and Sql Server
- */
+        /*Code Attribute for JobList
+         * Source: https://youtube.com/playlist?list=PL4HegTSNb5KEuVLeB9dDvENr2lqbsSSK3&si=7Gi5mDIHcPu5xANP
+         * Creater : Tech Tips Ulimited- Online Job Portal using ASP.NET C# and Sql Server
+         */
         //for the job listing to have the date the job was posted to be display correctly
         public static string RelativeDate(DateTime theDate)
         {

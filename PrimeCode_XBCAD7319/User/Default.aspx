@@ -19,7 +19,7 @@
             </p>
             <h3 class="text-2xl font-semibold mt-6 text-gray-800">Our Mission</h3>
             <p class="mt-4 text-lg text-gray-700">
-                We believe that every individual deserves the chance to find fulfilling employment. That's why we've partnered with WeeFeedSA, an organization committed to reducing unemployment and supporting communities. Together, we aim to bridge the gap between talent and opportunity, helping you secure the perfect job.
+                We believe that every individual deserves the chance to find fulfilling employment. That's why we've partnered with WeFeedSA, an organization committed to reducing unemployment and supporting communities. Together, we aim to bridge the gap between talent and opportunity, helping you secure the perfect job.
             </p>
         </div>
     </section>

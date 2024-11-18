@@ -180,6 +180,7 @@
                                     <li><a href="ContactList.aspx">Contact List</a></li>
                                     <li><a href="PartnerList.aspx">Partner List</a></li>
                                     <li><a href="Payment.aspx">Payment List</a></li>
+                                    <li><a href="AddAdmin.aspx">Add Admin</a></li>
                                 </ul>
                                 <div class="flex items-center relative">
                                     <asp:Literal ID="litUserName" runat="server"></asp:Literal>

@@ -100,13 +100,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Admin\AddAdmin.aspx" />
     <Content Include="Admin\ContactList.aspx" />
     <Content Include="Admin\Dashboard.aspx" />
     <Content Include="Admin\JobList.aspx" />
     <Content Include="Admin\PartnerList.aspx" />
     <Content Include="Admin\Payment.aspx" />
     <Content Include="Admin\Resume.aspx" />
+    <Content Include="Company\AppliedList.aspx" />
     <Content Include="Company\CompanyHome.aspx" />
+    <Content Include="Company\CompanyJoblist.aspx" />
     <Content Include="Company\CompanyProfile.aspx" />
     <Content Include="Company\NewJob.aspx" />
     <Content Include="Partner\PartnerProfile.aspx" />
@@ -144,6 +147,13 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Admin\AddAdmin.aspx.cs">
+      <DependentUpon>AddAdmin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\AddAdmin.aspx.designer.cs">
+      <DependentUpon>AddAdmin.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Admin\AdminMaster.Master.cs">
       <DependentUpon>AdminMaster.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -193,12 +203,26 @@
     <Compile Include="Admin\Resume.aspx.designer.cs">
       <DependentUpon>Resume.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Company\AppliedList.aspx.cs">
+      <DependentUpon>AppliedList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Company\AppliedList.aspx.designer.cs">
+      <DependentUpon>AppliedList.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Company\CompanyHome.aspx.cs">
       <DependentUpon>CompanyHome.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Company\CompanyHome.aspx.designer.cs">
       <DependentUpon>CompanyHome.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Company\CompanyJoblist.aspx.cs">
+      <DependentUpon>CompanyJoblist.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Company\CompanyJoblist.aspx.designer.cs">
+      <DependentUpon>CompanyJoblist.aspx</DependentUpon>
     </Compile>
     <Compile Include="Company\CompanyMaster.Master.cs">
       <DependentUpon>CompanyMaster.Master</DependentUpon>

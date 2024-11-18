@@ -19,7 +19,7 @@ namespace PrimeCode_XBCAD7319.User
         protected void btnLogin_Click(object sender, EventArgs e)
         {
             try
-            {//useing the drop down to see which databse the user is logining into and check their details match the one in the databse 
+            {
                 string userType = ddlUserType.SelectedValue;
 
                 using (SqlConnection con = new SqlConnection("Server=tcp:primecode.database.windows.net,1433;Initial Catalog=JobConnector;Persist Security Info=False;User ID=primecode;Password=xbcad@7319;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
@@ -56,19 +56,7 @@ namespace PrimeCode_XBCAD7319.User
                     if (sdr.Read())
                     {
                         string storedHash = sdr["Password"].ToString();
-                        bool isPasswordValid;
-
-                        // Check password based on user type
-                        if (userType == "Admin")
-                        {
-                            // For Admin, password is not hashed, directly compare
-                            isPasswordValid = storedHash == txtPassword.Text.Trim();
-                        }
-                        else
-                        {
-                            // For other user types, verify hashed password
-                            isPasswordValid = VerifyPassword(txtPassword.Text.Trim(), storedHash);
-                        }
+                        bool isPasswordValid = VerifyPassword(txtPassword.Text.Trim(), storedHash);
 
                         if (isPasswordValid)
                         {
@@ -108,14 +96,15 @@ namespace PrimeCode_XBCAD7319.User
                 Response.Write("<script>alert('" + ex.Message + "');</script>");
             }
         }
-        //code to verfiy the hashed password
+
+        // Verify the hashed password
         private bool VerifyPassword(string password, string storedHash)
         {
             byte[] hashWithSaltBytes = Convert.FromBase64String(storedHash);
 
             if (hashWithSaltBytes.Length != 36)
             {
-                return false; 
+                return false;
             }
 
             byte[] saltBytes = new byte[16];
@@ -139,14 +128,13 @@ namespace PrimeCode_XBCAD7319.User
 
             return true;
         }
-        //error message 
+
+        // Show error message
         private void showErrorMsg(string userType)
         {
             lblMsg.Visible = true;
             lblMsg.Text = $"{userType} information is incorrect.";
             lblMsg.CssClass = "alert alert-danger";
         }
-
-        
     }
 }
