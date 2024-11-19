@@ -270,7 +270,7 @@ For any issues or suggestions, please reach out via the **Contact Page** on the 
 ## Thank you PrimeCode 
 ---
 ##Group memebers
-- KHATIJA ESSA
+- KHATIJA 
 - SHEREL 
 - THABANI
 - KEEGAN
