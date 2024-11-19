@@ -71,6 +71,7 @@ The Job Connector platform is an innovative service designed to bridge the gap b
 - Users can view and update their personal information, such as:
   - **Avatar, personal details, and uploaded documents.**
 - Features tools to build a professional resume directly on the platform.
+![image](https://github.com/user-attachments/assets/c30d4a9c-e3a0-435c-8415-1c80a8319e0f)
 
 ---
 
@@ -86,13 +87,15 @@ The Job Connector platform is an innovative service designed to bridge the gap b
 - Users can filter job results by province, city, job type, and posting date.
 - Advanced filters (available for purchase) provide more precise results.
 - Logged-in users can click a job to view its full details and apply directly.
-  
+  ![image](https://github.com/user-attachments/assets/623b6072-afd3-4648-ab8a-523f383dc2a3)
+
 
 ---
 
 ### User Filter Purchase
 - Users can purchase advanced filters for job searches.
 - Payment is processed via Stripe, redirecting users to success or failure pages based on transaction outcomes.
+![image](https://github.com/user-attachments/assets/5db0cda0-d1ea-4843-8840-1c3349373308)
 
 ---
 
@@ -100,12 +103,7 @@ The Job Connector platform is an innovative service designed to bridge the gap b
 - Provides comprehensive job information, including:
   - **Requirements, job description, and application deadline.**
 - Users can apply for jobs directly through this page (limited to one application per job).
-
----
-
-### Company’s Profile
-- Companies can manage their profile, including:
-  - **Updating details, uploading an avatar, and storing key information.**
+![image](https://github.com/user-attachments/assets/441546f6-2854-471d-8c9a-ed9190c8a329)
 
 ---
 
@@ -113,12 +111,20 @@ The Job Connector platform is an innovative service designed to bridge the gap b
 - Displays information about costs for accessing user CVs.
 - Includes navigation to:
   - **Profile, Job List, and Applied List.**
+![image](https://github.com/user-attachments/assets/62544d02-24b0-4770-a70f-e99d2ef831dc)
+
+---
+### Company’s Profile
+- Companies can manage their profile, including:
+  - **Updating details, uploading an avatar, and storing key information.**
+![image](https://github.com/user-attachments/assets/0f6672ff-a4a0-4cb9-a23e-b4c5748b3c39)
 
 ---
 
 ### Company Job List
 - Companies can view, edit, or delete their posted jobs.
 - Jobs can be updated for accuracy or removed if positions are filled.
+![image](https://github.com/user-attachments/assets/427a5bf4-93c2-4adb-88ed-f47bbe0c1414)
 
 ---
 
@@ -127,19 +133,31 @@ The Job Connector platform is an innovative service designed to bridge the gap b
 - Displays limited applicant details like:
   - **Username, work experience, and job title.**
 - Companies can filter through applications to make decisions.
+![image](https://github.com/user-attachments/assets/f810b741-4aab-48b9-a0e6-e23b5212a6b6)
 
 ---
 
 ### Company Purchase CVs
 - Companies can buy access to a set number of CVs.
 - Payments are processed via Stripe, and purchased CVs are available immediately after payment.
+![image](https://github.com/user-attachments/assets/3e61acf2-3695-4fa3-a704-a32d0f925810)
 
 ---
 
 ### Company Payment
 - Handles payment processing for CV access or other services.
 - Redirects companies to Stripe for secure transactions.
+![image](https://github.com/user-attachments/assets/db5fe693-26cb-45e1-8225-00a733bf3a1b)
 
+---
+### Company Payment Thank you page
+- Once payment is made users will be redirected to a thank you page 
+![image](https://github.com/user-attachments/assets/e0226142-ce87-4d14-8dd2-c983b9468a71)
+---
+  
+  ### Company failed payment page
+- If the company occurs in an error with payment they will be redirected to a failed payment page 
+![image](https://github.com/user-attachments/assets/feb69322-eb43-43bb-93f3-fd9992220966)
 ---
 
 ### Upload a Job
@@ -152,6 +170,7 @@ The Job Connector platform is an innovative service designed to bridge the gap b
 ### Partner’s Profile
 - Allows partners to upload and manage documents, including bulk uploads.
 - Partners can edit personal and institutional details as needed.
+![image](https://github.com/user-attachments/assets/3e8f47af-0caf-4058-8946-c7cfc9831f74)
 
 ---
 
@@ -159,32 +178,38 @@ The Job Connector platform is an innovative service designed to bridge the gap b
 - Provides an overview of platform activity:
   - **Total users, jobs posted, and applications received.**
 - Admins can monitor platform health and performance.
+![image](https://github.com/user-attachments/assets/618242d7-5ce3-4af6-b2a5-cc7a39bd720f)
 
 ---
 
 ### Job List Page (Admin)
 - Admins can view and manage all job listings.
 - Features options to **edit** or **delete** job postings.
+![image](https://github.com/user-attachments/assets/c6f7e20a-e0a1-4abc-9330-dd82b4f89196)
 
 ---
 
-### View Resume Page (Admin)
+### Resume list Page (Admin)
 - Admins can manage applicant resumes by:
   - **Viewing, downloading, or deleting resumes.**
 - Displays comprehensive applicant information for review.
+![image](https://github.com/user-attachments/assets/11f4c362-1f31-4604-b4c5-585ab9d98463)
 
 ---
 
 ### Contact List Page (Admin)
 - Admins can respond to user inquiries directly via email.
 - Provides tools to manage and delete resolved messages.
+![image](https://github.com/user-attachments/assets/b0d2e7f1-f416-49f3-b810-765850cd855a)
 
 ---
 
-### Payment (Admin)
+### Payment list (Admin)
 - Tracks payments made by users and companies for filters or CV access.
 - Includes details like:
   - **Username, plan chosen, payment date, and user type.**
+![image](https://github.com/user-attachments/assets/32838eca-b3e4-4a12-b0b2-eb724cbc17b3)
+
 
 ---
 
@@ -192,12 +217,18 @@ The Job Connector platform is an innovative service designed to bridge the gap b
 - Admins can view and download documents uploaded by partners.
 - Displays partner details like:
   - **Name, email, phone number, and uploaded files.**
+![image](https://github.com/user-attachments/assets/cf21b188-155f-4156-9799-68cb0b99a46b)
 
 ---
 
 ### Payment Notification (Admin)
 - Displays real-time payment updates.
 - Notifications can be cleared after review (but remain stored in the database).
+  ![image](https://github.com/user-attachments/assets/06478efa-59c5-4f17-880e-2d622ccecf2d)
+---
+### Create Admin page 
+- Admins are the only users that will be able to create other admins 
+![image](https://github.com/user-attachments/assets/90ee6836-a779-4e54-8a62-d7dcbb5231eb)
 
 ---
 
