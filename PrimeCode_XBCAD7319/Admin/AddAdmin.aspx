@@ -2,7 +2,8 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <div class="bg-[#035772] min-h-screen flex flex-col items-center justify-center py-10">
+
+    <div class="bg-[#035772] min-h-screen flex flex-col items-center pt-20">
         <div class="text-center mb-4">
             <h2 class="text-5xl font-bold text-white">Create Admin</h2>
         </div>

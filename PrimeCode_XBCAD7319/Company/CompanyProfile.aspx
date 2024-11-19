@@ -136,6 +136,10 @@
                             <h6 class="font-bold mb-2 text-black">Address</h6>
                             <asp:TextBox ID="txtAddress" runat="server" TextMode="MultiLine" CssClass="w-full p-3 border border-black rounded" Text='<%# Eval("Address") %>'></asp:TextBox>
                         </div>
+                        <div class="mb-4 w-full">
+    <h6 class="font-bold mb-2 text-black">Company Name</h6>
+    <asp:TextBox ID="companyname" runat="server" CssClass="w-full p-3 border border-black rounded" Text='<%# Eval("CompanyName") %>'></asp:TextBox>
+</div>
                         <div class="mt-6 flex space-x-4">
                             <asp:Button ID="btnSaveChanges" runat="server" Text="Save Changes" CssClass="bg-[#035772] text-white font-semibold px-8 py-4 rounded-md hover:bg-[#A5C8D4]" CommandArgument='<%# Eval("CompanyId") %>' OnClick="btnSaveChanges_Click" />
                         </div>

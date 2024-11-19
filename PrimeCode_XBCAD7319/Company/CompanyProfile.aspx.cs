@@ -31,7 +31,7 @@ namespace PrimeCode_XBCAD7319.Company
         {
             using (SqlConnection con = new SqlConnection(connectionString))
             {
-                string query = "SELECT CompanyId, Username, Name, Address, Mobile, Email, Province, ProfileImage FROM Company WHERE Username=@username";
+                string query = "SELECT CompanyId, Username, Name, Address, Mobile, Email, Province,CompanyName, ProfileImage FROM Company WHERE Username=@username";
                 cmd = new SqlCommand(query, con);
                 cmd.Parameters.AddWithValue("@username", Session["username"].ToString());
                 sda = new SqlDataAdapter(cmd);
@@ -103,11 +103,12 @@ namespace PrimeCode_XBCAD7319.Company
 
             using (SqlConnection con = new SqlConnection(connectionString))
             {
-                string query = "UPDATE Company SET Name = @Name, Email = @Email, Mobile = @Mobile, Address = @Address WHERE CompanyId = @CompanyId";
+                string query = "UPDATE Company SET Name = @Name, Email = @Email, Mobile = @Mobile, CompanyName = @CompanyName, Address = @Address WHERE CompanyId = @CompanyId";
                 cmd = new SqlCommand(query, con);
                 cmd.Parameters.AddWithValue("@Name", ((TextBox)dlProfile.Items[0].FindControl("txtName")).Text);
                 cmd.Parameters.AddWithValue("@Email", ((TextBox)dlProfile.Items[0].FindControl("txtEmail")).Text);
                 cmd.Parameters.AddWithValue("@Mobile", ((TextBox)dlProfile.Items[0].FindControl("txtPhone")).Text);
+                cmd.Parameters.AddWithValue("@CompanyName", ((TextBox)dlProfile.Items[0].FindControl("companyname")).Text);
                 cmd.Parameters.AddWithValue("@Address", ((TextBox)dlProfile.Items[0].FindControl("txtAddress")).Text);
                 cmd.Parameters.AddWithValue("@CompanyId", companyId);
                 con.Open();
