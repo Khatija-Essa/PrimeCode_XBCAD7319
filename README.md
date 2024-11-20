@@ -71,7 +71,7 @@ The Job Connector platform is an innovative service designed to bridge the gap b
 - Users can view and update their personal information, such as:
   - **Avatar, personal details, and uploaded documents.**
 - Features tools to build a professional resume directly on the platform.
-![image](https://github.com/user-attachments/assets/c30d4a9c-e3a0-435c-8415-1c80a8319e0f)
+![image](https://github.com/user-attachments/assets/fd64713a-6577-4119-ab72-70db8f3439fa)
 
 ---
 
@@ -79,6 +79,7 @@ The Job Connector platform is an innovative service designed to bridge the gap b
 - Users can create a resume by entering:
   - **Personal details, education, work experience, and additional documents.**
 - Resumes are saved for use in job applications.
+![image](https://github.com/user-attachments/assets/dd4e7401-57b2-4899-bbb4-8d8ecc2283f5)
 
 ---
 ### Find a Job Page
@@ -164,6 +165,8 @@ The Job Connector platform is an innovative service designed to bridge the gap b
 - Companies can create job postings by providing:
   - **Job title, description, qualifications, salary, application deadline, and location.**
 - Listings are stored in the platform’s database.
+
+![image](https://github.com/user-attachments/assets/697cf1ee-9d4d-4f26-b020-fe7ad2f8fd86)
 
 ---
 
@@ -269,7 +272,7 @@ For any issues or suggestions, please reach out via the **Contact Page** on the 
 
 ## Thank you PrimeCode 
 ---
-##Group memebers
+## Group memebers
 - KHATIJA 
 - SHEREL 
 - THABANI
