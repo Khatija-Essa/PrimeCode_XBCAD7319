@@ -1,0 +1,145 @@
+CREATE TABLE [dbo].[Admin] (
+    [AdminId]  INT          IDENTITY (1, 1) NOT NULL,
+    [username] VARCHAR (50) NULL,
+    [password] VARCHAR (50) NULL,
+    PRIMARY KEY CLUSTERED ([AdminId] ASC)
+);
+
+
+CREATE TABLE [dbo].[AppliedJobs] (
+    [AppliedJobId] INT IDENTITY (1, 1) NOT NULL,
+    [JobId]        INT NULL,
+    [UserId]       INT NULL,
+    PRIMARY KEY CLUSTERED ([AppliedJobId] ASC)
+);
+
+
+CREATE TABLE [dbo].[Company] (
+    [CompanyId]    INT           IDENTITY (1, 1) NOT NULL,
+    [Username]     VARCHAR (50)  NULL,
+    [Password]     VARCHAR (50)  NULL,
+    [Name]         VARCHAR (50)  NULL,
+    [Email]        VARCHAR (50)  NULL,
+    [Mobile]       VARCHAR (50)  NULL,
+    [Address]      VARCHAR (MAX) NULL,
+    [Province]     VARCHAR (50)  NULL,
+    [ProfileImage] VARCHAR (MAX) NULL,
+    [CompanyName]  VARCHAR (200) NULL,
+    PRIMARY KEY CLUSTERED ([CompanyId] ASC),
+    UNIQUE NONCLUSTERED ([Username] ASC)
+);
+
+CREATE TABLE [dbo].[Contact] (
+    [ContactId] INT           IDENTITY (1, 1) NOT NULL,
+    [Name]      VARCHAR (50)  NULL,
+    [email]     VARCHAR (50)  NULL,
+    [message]   VARCHAR (MAX) NULL,
+    PRIMARY KEY CLUSTERED ([ContactId] ASC)
+);
+
+
+CREATE TABLE [dbo].[Jobs] (
+    [JobId]           INT           IDENTITY (1, 1) NOT NULL,
+    [Title]           VARCHAR (50)  NULL,
+    [NoOfPost]        INT           NULL,
+    [Description]     VARCHAR (MAX) NULL,
+    [Qualification]   VARCHAR (50)  NULL,
+    [Experience]      VARCHAR (50)  NULL,
+    [Specialization]  VARCHAR (MAX) NULL,
+    [LastDateToApply] DATE          NULL,
+    [Salary]          VARCHAR (50)  NULL,
+    [JobType]         VARCHAR (50)  NULL,
+    [CompanyName]     VARCHAR (200) NULL,
+    [CompanyImage]    VARCHAR (500) NULL,
+    [Website]         VARCHAR (100) NULL,
+    [Email]           VARCHAR (50)  NULL,
+    [Address]         VARCHAR (MAX) NULL,
+    [Province]        VARCHAR (50)  NULL,
+    [CreateDate]      DATETIME      NULL,
+    [MajorCities]     VARCHAR (50)  NULL,
+    PRIMARY KEY CLUSTERED ([JobId] ASC)
+);
+
+
+CREATE TABLE [dbo].[Partner] (
+    [PartnerId]    INT           IDENTITY (1, 1) NOT NULL,
+    [Username]     VARCHAR (50)  NULL,
+    [Password]     VARCHAR (50)  NULL,
+    [Name]         VARCHAR (50)  NULL,
+    [Email]        VARCHAR (50)  NULL,
+    [Mobile]       VARCHAR (50)  NULL,
+    [Address]      VARCHAR (MAX) NULL,
+    [Province]     VARCHAR (50)  NULL,
+    [ProfileImage] VARCHAR (MAX) NULL,
+    PRIMARY KEY CLUSTERED ([PartnerId] ASC),
+    UNIQUE NONCLUSTERED ([Username] ASC)
+);
+
+CREATE TABLE [dbo].[MajorCities] (
+    [CityID]   INT           IDENTITY (1, 1) NOT NULL,
+    [CityName] VARCHAR (100) NULL,
+    PRIMARY KEY CLUSTERED ([CityID] ASC)
+);
+
+
+CREATE TABLE [dbo].[PartnerDocuments] (
+    [DocumentId] INT            IDENTITY (1, 1) NOT NULL,
+    [PartnerId]  INT            NULL,
+    [FilePath]   NVARCHAR (MAX) NULL,
+    PRIMARY KEY CLUSTERED ([DocumentId] ASC),
+    FOREIGN KEY ([PartnerId]) REFERENCES [dbo].[Partner] ([PartnerId])
+);
+
+
+CREATE TABLE [dbo].[PaymentSessions] (
+    [Id]          INT            IDENTITY (1, 1) NOT NULL,
+    [Username]    NVARCHAR (255) NOT NULL,
+    [Plan]        NVARCHAR (255) NOT NULL,
+    [SessionId]   NVARCHAR (255) NOT NULL,
+    [CreatedAt]   DATETIME       DEFAULT (getdate()) NOT NULL,
+    [PaymentMade] NVARCHAR (3)   DEFAULT ('no') NOT NULL,
+    PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+CREATE TABLE [dbo].[Province] (
+    [ProvincesId]  INT          IDENTITY (1, 1) NOT NULL,
+    [ProvinceName] VARCHAR (50) NULL,
+    PRIMARY KEY CLUSTERED ([ProvincesId] ASC)
+);
+
+
+CREATE TABLE [dbo].[User] (
+    [UserId]         INT            IDENTITY (1, 1) NOT NULL,
+    [Username]       VARCHAR (50)   NULL,
+    [Password]       VARCHAR (50)   NULL,
+    [Name]           VARCHAR (50)   NULL,
+    [Email]          VARCHAR (50)   NULL,
+    [Mobile]         VARCHAR (50)   NULL,
+    [Highschool]     VARCHAR (50)   NULL,
+    [University]     VARCHAR (50)   NULL,
+    [WorkExperience] VARCHAR (50)   NULL,
+    [Resume]         NVARCHAR (MAX) NULL,
+    [Matric]         NVARCHAR (MAX) NULL,
+    [ID]             NVARCHAR (MAX) NULL,
+    [Transcript]     NVARCHAR (MAX) NULL,
+    [Address]        VARCHAR (MAX)  NULL,
+    [Province]       VARCHAR (50)   NULL,
+    [ProfileImage]   VARCHAR (MAX)  NULL,
+    [CV]             NVARCHAR (MAX) NULL,
+    PRIMARY KEY CLUSTERED ([UserId] ASC),
+    UNIQUE NONCLUSTERED ([Username] ASC),
+    UNIQUE NONCLUSTERED ([Username] ASC)
+);
+
+CREATE TABLE [dbo].[UserFilterTracking] (
+    [UserId]      INT NOT NULL,
+    [FilterCount] INT DEFAULT ((0)) NULL,
+    [HasPaid]     BIT DEFAULT ((0)) NULL,
+    PRIMARY KEY CLUSTERED ([UserId] ASC),
+    FOREIGN KEY ([UserId]) REFERENCES [dbo].[User] ([UserId])
+);
+
+
+database name -->   Create Database JobConnector;
+
+
