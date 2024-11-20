@@ -51,6 +51,10 @@
                             <h6 class="font-bold mb-2 text-black">Academic Transcript Uploaded</h6>
                             <asp:TextBox ID="txtAT" runat="server" CssClass="w-full p-3 border border-black rounded" Text='<%# Eval("Transcript") == DBNull.Value ? "Not Created" : "Created" %>' Enabled="false"></asp:TextBox>
                         </div>
+                        <div class="mb-4 w-full">
+                            <h6 class="font-bold mb-2 text-black">CV Uploaded</h6>
+                            <asp:TextBox ID="txtCV" runat="server" CssClass="w-full p-3 border border-black rounded" Text='<%# Eval("CV") == DBNull.Value ? "Not Created" : "Created" %>' Enabled="false"></asp:TextBox>
+                        </div>
                         <div class="mt-6 flex space-x-4">
                             <asp:LinkButton ID="btnCv" runat="server" Text="Resume" CssClass="bg-[#035772] text-white font-semibold px-8 py-4 rounded-md hover:bg-[#A5C8D4]" CommandName="CreateCv" CommandArgument='<%# Eval("UserId") %>'></asp:LinkButton>
                         </div>

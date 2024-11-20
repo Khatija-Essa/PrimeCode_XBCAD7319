@@ -15,7 +15,8 @@ namespace PrimeCode_XBCAD7319.User
         private static readonly string connectionString = ConfigurationManager.ConnectionStrings["AzureDBConnection"].ConnectionString;
 
         protected void Page_Load(object sender, EventArgs e)
-        {//make sure use ris logged in before redirecting to the page
+        {
+            //make sure user is logged in before redirecting to the page
             if (Session["username"] == null)
             {
                 Response.Redirect("Login.aspx");
@@ -25,12 +26,15 @@ namespace PrimeCode_XBCAD7319.User
                 showUserProfile();
             }
         }
+
         //display user details 
         private void showUserProfile()
         {
             using (SqlConnection con = new SqlConnection(connectionString))
             {
-                string query = "SELECT UserId, Username, Name, Address, Mobile, Email, Resume, ID, Matric, Transcript, Province, ProfileImage FROM [User] WHERE Username=@username";
+                string query = @"SELECT UserId, Username, Name, Address, Mobile, Email, 
+                               Resume, ID, Matric, Transcript, CV, Province, ProfileImage 
+                               FROM [User] WHERE Username=@username";
                 cmd = new SqlCommand(query, con);
                 cmd.Parameters.AddWithValue("@username", Session["username"].ToString());
                 sda = new SqlDataAdapter(cmd);
@@ -47,7 +51,8 @@ namespace PrimeCode_XBCAD7319.User
                 }
             }
         }
-        //code to redirect user to thier cv page in which they can fill in extra informatio ot create their cv 
+
+        //code to redirect user to their cv page in which they can fill in extra information to create their cv 
         protected void dlProfile_ItemCommand(object source, DataListCommandEventArgs e)
         {
             if (e.CommandName == "CreateCv")
@@ -56,11 +61,11 @@ namespace PrimeCode_XBCAD7319.User
             }
 
             /*Code Attribute for Profile
- * Source: https://youtube.com/playlist?list=PL4HegTSNb5KEuVLeB9dDvENr2lqbsSSK3&si=7Gi5mDIHcPu5xANP
- * Creater : Tech Tips Ulimited- Online Job Portal using ASP.NET C# and Sql Server
- */
+             * Source: https://youtube.com/playlist?list=PL4HegTSNb5KEuVLeB9dDvENr2lqbsSSK3&si=7Gi5mDIHcPu5xANP
+             * Creater : Tech Tips Ulimited- Online Job Portal using ASP.NET C# and Sql Server
+             */
 
-            //code for user to upload a prifle picture
+            //code for user to upload a profile picture
             else if (e.CommandName == "UploadImage")
             {
                 FileUpload fuProfileImage = (FileUpload)e.Item.FindControl("fuProfileImage");

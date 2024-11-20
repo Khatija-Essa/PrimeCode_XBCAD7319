@@ -20,7 +20,6 @@ namespace PrimeCode_XBCAD7319.Company
             {
                 Response.Redirect("Login.aspx");
             }
-
             if (!IsPostBack)
             {
                 ShowAppliedJob(); // Initially show all applied jobs
@@ -31,56 +30,77 @@ namespace PrimeCode_XBCAD7319.Company
         private void ShowAppliedJob(string searchQuery = "")
         {
             string query = string.Empty;
-
             using (SqlConnection con = new SqlConnection(connectionString))
             {
-                query = @"Select Row_Number() over(Order by(Select 1)) as [Sr.No], aj.AppliedJobId, j.CompanyName, aj.JobId, j.Title, u.WorkExperience,
-                          u.Name from AppliedJobs aj
-                          inner join [User] u on aj.UserId = u.UserId
-                          inner join Jobs j on aj.JobId = j.JobId ";
+                // Modified query to only show applications for the logged-in company's jobs
+                query = @"SELECT Row_Number() OVER(ORDER BY (SELECT 1)) as [Sr.No], 
+                         aj.AppliedJobId, j.CompanyName, aj.JobId, j.Title, 
+                         u.WorkExperience, u.Name 
+                         FROM AppliedJobs aj
+                         INNER JOIN [User] u ON aj.UserId = u.UserId
+                         INNER JOIN Jobs j ON aj.JobId = j.JobId
+                         INNER JOIN Company c ON j.CompanyName = c.CompanyName
+                         WHERE c.CompanyId = @CompanyId";
 
-                // Apply filter if search query is provided
+                // Apply additional filter if search query is provided
                 if (!string.IsNullOrEmpty(searchQuery))
                 {
-                    query += " WHERE j.Title LIKE @SearchQuery OR j.CompanyName LIKE @SearchQuery OR u.Name LIKE @SearchQuery OR u.WorkExperience LIKE @SearchQuery";
+                    query += @" AND (j.Title LIKE @SearchQuery 
+                              OR j.CompanyName LIKE @SearchQuery 
+                              OR u.Name LIKE @SearchQuery 
+                              OR u.WorkExperience LIKE @SearchQuery)";
                 }
 
                 cmd = new SqlCommand(query, con);
-                // Add parameterized query to prevent SQL injection
-                cmd.Parameters.AddWithValue("@SearchQuery", "%" + searchQuery + "%");
+
+                // Add company ID parameter
+                cmd.Parameters.AddWithValue("@CompanyId", Session["userId"].ToString());
+
+                // Add search parameter if provided
+                if (!string.IsNullOrEmpty(searchQuery))
+                {
+                    cmd.Parameters.AddWithValue("@SearchQuery", "%" + searchQuery + "%");
+                }
 
                 SqlDataAdapter sda = new SqlDataAdapter(cmd);
                 dt = new DataTable();
                 sda.Fill(dt);
-                GridView1.DataSource = dt;
-                GridView1.DataBind();
+
+                if (dt.Rows.Count > 0)
+                {
+                    GridView1.DataSource = dt;
+                    GridView1.DataBind();
+                    lblMsg.Visible = false;
+                }
+                else
+                {
+                    GridView1.DataSource = null;
+                    GridView1.DataBind();
+                    lblMsg.Visible = true;
+                    lblMsg.Text = "No applications found.";
+                    lblMsg.CssClass = "alert alert-warning";
+                }
             }
         }
 
         // Method to handle search button click
         protected void btnSearch_Click(object sender, EventArgs e)
         {
-            // Get the search term from the TextBox
             string searchQuery = txtSearch.Text.Trim();
-            // Call the ShowAppliedJob method with the search query
             ShowAppliedJob(searchQuery);
         }
 
         // Method to handle pagination in GridView
         protected void GridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
-            // Set the new page index for GridView
             GridView1.PageIndex = e.NewPageIndex;
-            // Re-fetch and bind data
             ShowAppliedJob(txtSearch.Text.Trim());
         }
 
         // Method to handle the clear button click
         protected void btnClear_Click(object sender, EventArgs e)
         {
-            // Clear the search text box
             txtSearch.Text = string.Empty;
-            // Call ShowAppliedJob method with an empty search query to reset the grid
             ShowAppliedJob();
         }
     }

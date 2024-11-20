@@ -94,7 +94,6 @@ namespace PrimeCode_XBCAD7319.User
             }
         }
 
-        //to save their new information to the database 
         protected void btnUpload_Click(object sender, EventArgs e)
         {
             try
@@ -108,41 +107,46 @@ namespace PrimeCode_XBCAD7319.User
                         string matricPath = string.Empty;
                         string idDocPath = string.Empty;
                         string transcriptPath = string.Empty;
+                        string cvPath = string.Empty;
 
                         // Validate and save each file if present
                         bool isResumeValid = Doc.HasFile && IsValidExtension(Doc.FileName);
                         bool isMatricValid = Doc1.HasFile && IsValidExtension(Doc1.FileName);
                         bool isIdDocValid = Doc2.HasFile && IsValidExtension(Doc2.FileName);
                         bool isTranscriptValid = Doc3.HasFile && IsValidExtension(Doc3.FileName);
+                        bool isCvValid = Doc4.HasFile && IsValidExtension(Doc4.FileName);
 
                         // Create directories if they don't exist
                         string resumeDir = Server.MapPath("~/Resumes/");
                         string matricDir = Server.MapPath("~/Matric/");
                         string idDocDir = Server.MapPath("~/ID/");
                         string transcriptDir = Server.MapPath("~/Transcripts/");
+                        string cvDir = Server.MapPath("~/CV/");
 
                         if (!Directory.Exists(resumeDir)) Directory.CreateDirectory(resumeDir);
                         if (!Directory.Exists(matricDir)) Directory.CreateDirectory(matricDir);
                         if (!Directory.Exists(idDocDir)) Directory.CreateDirectory(idDocDir);
                         if (!Directory.Exists(transcriptDir)) Directory.CreateDirectory(transcriptDir);
+                        if (!Directory.Exists(cvDir)) Directory.CreateDirectory(cvDir);
 
                         // Start building the SQL query
                         query = @"UPDATE [User] SET 
-                                    Username=@Username, 
-                                    Name=@Name, 
-                                    Email=@Email, 
-                                    Mobile=@Mobile, 
-                                    Highschool=@Highschool, 
-                                    University=@University, 
-                                    WorkExperience=@WorkExperience, 
-                                    Address=@Address, 
-                                    Province=@Province";
+                                Username=@Username, 
+                                Name=@Name, 
+                                Email=@Email, 
+                                Mobile=@Mobile, 
+                                Highschool=@Highschool, 
+                                University=@University, 
+                                WorkExperience=@WorkExperience, 
+                                Address=@Address, 
+                                Province=@Province";
 
                         // Append file paths to the query if valid files are uploaded
                         if (isResumeValid) query += ", Resume=@Resume";
                         if (isMatricValid) query += ", Matric=@Matric";
                         if (isIdDocValid) query += ", ID=@ID";
                         if (isTranscriptValid) query += ", Transcript=@Transcript";
+                        if (isCvValid) query += ", CV=@CV";
 
                         query += " WHERE UserId=@UserId";
 
@@ -195,6 +199,15 @@ namespace PrimeCode_XBCAD7319.User
                             cmd.Parameters.AddWithValue("@Transcript", transcriptPath);
                         }
 
+                        // Handle CV file upload
+                        if (isCvValid)
+                        {
+                            Guid cvGuid = Guid.NewGuid();
+                            cvPath = "CV/" + cvGuid.ToString() + Path.GetExtension(Doc4.FileName);
+                            Doc4.SaveAs(cvDir + cvGuid.ToString() + Path.GetExtension(Doc4.FileName));
+                            cmd.Parameters.AddWithValue("@CV", cvPath);
+                        }
+
                         // Execute the query
                         con.Open();
                         int rowsAffected = cmd.ExecuteNonQuery();
@@ -226,7 +239,7 @@ namespace PrimeCode_XBCAD7319.User
                 lblMsg.CssClass = "alert alert-danger";
             }
         }
-        //method to ensure the documents saved are correct
+
         private bool IsValidExtension(string fileName)
         {
             string[] fileExtensions = { ".doc", ".docx", ".pdf" };

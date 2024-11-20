@@ -159,6 +159,15 @@ namespace PrimeCode_XBCAD7319.User
         protected global::System.Web.UI.WebControls.FileUpload Doc3;
 
         /// <summary>
+        /// Doc4 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.FileUpload Doc4;
+
+        /// <summary>
         /// btnupload control.
         /// </summary>
         /// <remarks>
