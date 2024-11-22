@@ -48,10 +48,7 @@ jobs:
         shell: bash
         run: |
           echo "Installing Web Workload..."
-          if ! dotnet workload install microsoft.aspnetcore.web; then
-            echo "Workload installation failed. Proceeding with the next steps."
-            exit 1
-          fi
+          dotnet workload install microsoft.aspnetcore.web || { echo "Workload installation failed."; exit 1; }
 
       - name: Build and analyze
         env:
