@@ -1,6 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Admin/AdminMaster.Master" EnableEventValidation="false" AutoEventWireup="true" CodeBehind="Resume.aspx.cs" Inherits="PrimeCode_XBCAD7319.Admin.Resume" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="container-fluid mx-auto p-4 pb-32">

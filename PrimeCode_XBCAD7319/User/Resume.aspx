@@ -1,5 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/User/UserMaster.Master" AutoEventWireup="true" CodeBehind="Resume.aspx.cs" Inherits="PrimeCode_XBCAD7319.User.Resume" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="container mx-auto p-6 bg-white rounded-lg shadow-md" style="padding-bottom: 500px;">

@@ -1,5 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Company/CompanyMaster.Master" AutoEventWireup="true" CodeBehind="AppliedList.aspx.cs" Inherits="PrimeCode_XBCAD7319.Company.AppliedList" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         .custom-width {
             width: 100%;

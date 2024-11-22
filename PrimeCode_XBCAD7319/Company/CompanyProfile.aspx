@@ -1,5 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Company/CompanyMaster.Master" AutoEventWireup="true" CodeBehind="CompanyProfile.aspx.cs" Inherits="PrimeCode_XBCAD7319.Company.CompanyProfile" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 <html>

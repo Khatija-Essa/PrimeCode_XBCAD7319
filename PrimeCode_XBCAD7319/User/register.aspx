@@ -1,5 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/User/UserMaster.Master" AutoEventWireup="true" CodeBehind="register.aspx.cs" Inherits="PrimeCode_XBCAD7319.User.register" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="bg-[#035772] min-h-screen flex flex-col items-center justify-center py-10 pb-40">

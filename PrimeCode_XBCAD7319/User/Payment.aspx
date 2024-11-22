@@ -1,6 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/User/UserMaster.Master" AutoEventWireup="true" CodeBehind="Payment.aspx.cs" Inherits="PrimeCode_XBCAD7319.User.Payment" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payment</title>
     <script src="https://js.stripe.com/v3/"></script>
     <style>
