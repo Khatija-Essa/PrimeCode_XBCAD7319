@@ -379,6 +379,7 @@
     <Content Include="public\fonts\zt_neue_ralewe\ZTNeueRalewe-Regular.ttf" />
     <Content Include="User\UserMaster.Master" />
     <Content Include="Partner\PartnerMaster.Master" />
+    <None Include="Properties\PublishProfiles\jobconnectorwefeed - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
