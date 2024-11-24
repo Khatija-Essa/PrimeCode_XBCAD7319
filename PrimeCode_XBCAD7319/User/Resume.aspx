@@ -88,6 +88,13 @@
             </div>
         </div>
 
+        <div class="mt-4 text-center">
+    <a href="https://wil-cv-builder.azurewebsites.net/" target="_blank" 
+       class="inline-block bg-[#035772] text-white rounded p-3 text-lg hover:bg-[#A5C8D4] mb-4 w-full">
+        Build CV using Template
+    </a>
+</div>
+
         <div class="mt-8 text-center">
             <asp:Button ID="btnupload" runat="server" Text="Update" 
                 CssClass="bg-[#035772] text-white rounded w-full p-5 text-lg hover:bg-[#A5C8D4]" 
