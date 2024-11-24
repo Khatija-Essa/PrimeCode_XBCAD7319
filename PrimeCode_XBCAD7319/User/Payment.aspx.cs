@@ -68,8 +68,8 @@ namespace PrimeCode_XBCAD7319.User
                     },
                 },
                 Mode = "payment",
-                SuccessUrl = "http://localhost:50630/User/PaymentSuccess.aspx?session_id={CHECKOUT_SESSION_ID}",
-                CancelUrl = "http://localhost:50630/User/PaymentCancel.aspx",
+                SuccessUrl = "https://jobconnector.azurewebsites.net/User/PaymentSuccess.aspx?session_id={CHECKOUT_SESSION_ID}",
+                CancelUrl = "https://jobconnector.azurewebsites.net/User/PaymentCancel.aspx",
             };
 
             var service = new SessionService();
