@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.Security;
 using System.Web.SessionState;
@@ -20,10 +18,7 @@ namespace PrimeCode_XBCAD7319
 
         protected void Session_Start(object sender, EventArgs e)
         {
-            if (Session["username"] == null)
-            {
-                Session["username"] = string.Empty;
-            }
+            Session["username"] = Session["username"] ?? string.Empty;
         }
 
         protected void Application_BeginRequest(object sender, EventArgs e)
@@ -32,10 +27,6 @@ namespace PrimeCode_XBCAD7319
             {
                 Response.Redirect("~/User/Default.aspx");
             }
-        }
-
-        protected void Application_AuthenticateRequest(object sender, EventArgs e)
-        {
         }
 
         protected void Application_Error(object sender, EventArgs e)
@@ -56,6 +47,7 @@ namespace PrimeCode_XBCAD7319
 
         protected void Application_End(object sender, EventArgs e)
         {
+            // Clean up code if needed
         }
     }
 }

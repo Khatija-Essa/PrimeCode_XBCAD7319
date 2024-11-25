@@ -29,12 +29,18 @@ namespace PrimeCode_XBCAD7319.Company
             }
         }
 
+        /// <summary>
+        /// Sets the validation for the Last Date field to ensure no past dates
+        /// </summary>
         private void SetLastDateValidation()
         {
             // Set the Last Date validation to ensure no past dates are entered
             cvLastDate.ValueToCompare = DateTime.Now.ToString("yyyy-MM-dd");
         }
 
+        /// <summary>
+        /// Loads the provinces into the dropdown list from the database
+        /// </summary>
         private void LoadProvinces()
         {
             using (SqlConnection con = new SqlConnection(connectionString))
@@ -55,6 +61,9 @@ namespace PrimeCode_XBCAD7319.Company
             ddlProvinces.Items.Insert(0, new ListItem("Select Province", "0"));
         }
 
+        /// <summary>
+        /// Loads the major cities into the dropdown list from the database
+        /// </summary>
         private void LoadMajorCities()
         {
             ddlMajorCities.Items.Clear(); // Clear existing items first
@@ -78,6 +87,47 @@ namespace PrimeCode_XBCAD7319.Company
             }
         }
 
+        /// <summary>
+        /// Saves the company logo to the server and returns the relative path
+        /// </summary>
+        /// <param name="fileUpload">The FileUpload control containing the image</param>
+        /// <returns>The relative path of the saved image</returns>
+        private string SaveCompanyImage(FileUpload fileUpload)
+        {
+            try
+            {
+                if (fileUpload.HasFile)
+                {
+                    // Generate unique filename to prevent conflicts
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(fileUpload.FileName);
+
+                    // Get the physical path of the Images folder
+                    string uploadsPath = Server.MapPath("~/Images");
+
+                    // Create directory if it doesn't exist
+                    if (!Directory.Exists(uploadsPath))
+                    {
+                        Directory.CreateDirectory(uploadsPath);
+                    }
+
+                    // Combine path and save file
+                    string filePath = Path.Combine(uploadsPath, fileName);
+                    fileUpload.SaveAs(filePath);
+
+                    // Return relative path for database storage
+                    return "Images/" + fileName;
+                }
+                return string.Empty;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error saving image: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Fills the form with existing job data when editing
+        /// </summary>
         private void fillData()
         {
             if (Request.QueryString["id"] != null)
@@ -158,6 +208,9 @@ namespace PrimeCode_XBCAD7319.Company
             }
         }
 
+        /// <summary>
+        /// Handles the Add/Update button click event
+        /// </summary>
         protected void btnAdd_Click(object sender, EventArgs e)
         {
             try
@@ -200,6 +253,7 @@ namespace PrimeCode_XBCAD7319.Company
                     {
                         if (Request.QueryString["id"] != null)
                         {
+                            // Update existing job
                             query = @"UPDATE Jobs SET Title = @Title, NoOfPost = @NoOfPost, Description = @Description, Qualification = @Qualification,
                                      Experience = @Experience, Specialization = @Specialization, LastDateToApply = @LastDateToApply, 
                                      Salary = @Salary, JobType = @JobType, CompanyName = @CompanyName, Website = @Website, 
@@ -207,9 +261,7 @@ namespace PrimeCode_XBCAD7319.Company
 
                             if (CompanyLogo.HasFile)
                             {
-                                Guid obj = Guid.NewGuid();
-                                imagePath = "Images/" + obj.ToString() + Path.GetExtension(CompanyLogo.FileName);
-                                CompanyLogo.PostedFile.SaveAs(Server.MapPath("~/Images/") + obj.ToString() + Path.GetExtension(CompanyLogo.FileName));
+                                imagePath = SaveCompanyImage(CompanyLogo);
                                 query += ", CompanyImage = @CompanyImage";
                             }
 
@@ -219,6 +271,7 @@ namespace PrimeCode_XBCAD7319.Company
                         }
                         else
                         {
+                            // Insert new job
                             query = @"INSERT INTO Jobs (Title, NoOfPost, Description, Qualification, Experience, Specialization, LastDateToApply, 
                                      Salary, JobType, CompanyName, CompanyImage, Website, Email, Address, Province, MajorCities, CreateDate) 
                                      VALUES (@Title, @NoOfPost, @Description, @Qualification, @Experience, @Specialization, @LastDateToApply, 
@@ -229,9 +282,7 @@ namespace PrimeCode_XBCAD7319.Company
 
                             if (CompanyLogo.HasFile)
                             {
-                                Guid obj = Guid.NewGuid();
-                                imagePath = "Images/" + obj.ToString() + Path.GetExtension(CompanyLogo.FileName);
-                                CompanyLogo.PostedFile.SaveAs(Server.MapPath("~/Images/") + obj.ToString() + Path.GetExtension(CompanyLogo.FileName));
+                                imagePath = SaveCompanyImage(CompanyLogo);
                             }
                         }
 
@@ -298,6 +349,7 @@ namespace PrimeCode_XBCAD7319.Company
             ddlMajorCities.ClearSelection();
         }
 
+   
         private bool IsValidExtension(string fileName)
         {
             string[] validFileExtensions = { ".jpg", ".jpeg", ".png" };
@@ -306,7 +358,8 @@ namespace PrimeCode_XBCAD7319.Company
     }
 }
 
-/*Code Attribute for New Job
- * Source: https://youtube.com/playlist?list=PL4HegTSNb5KEuVLeB9dDvENr2lqbsSSK3&si=7Gi5mDIHcPu5xANP
- * Creater : Tech Tips Ulimited- Online Job Portal using ASP.NET C# and Sql Server
+/*Code Attribution:
+ * Original Source: Online Job Portal using ASP.NET C# and SQL Server
+ * Source URL: https://youtube.com/playlist?list=PL4HegTSNb5KEuVLeB9dDvENr2lqbsSSK3&si=7Gi5mDIHcPu5xANP
+ * Creator: Tech Tips Unlimited
  */
